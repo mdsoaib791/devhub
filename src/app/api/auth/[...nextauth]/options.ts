@@ -9,8 +9,7 @@ export const options: NextAuthOptions = {
     CredentialsProvider({
       name: 'Credentials',
       credentials: {
-        username: {
-          label: 'Email',
+        email: {
           type: 'email',
           placeholder: '',
         },
@@ -19,9 +18,9 @@ export const options: NextAuthOptions = {
       async authorize(credentials) {
         try {
           const response = await axios.post(
-            `${process.env.NEXT_PUBLIC_API_BASE_URL}/Account/Login`,
+            `${process.env.NEXT_PUBLIC_API_BASE_URL}/login`,
             {
-              username: credentials?.username,
+              email: credentials?.email,
               password: credentials?.password,
             },
             {
@@ -31,9 +30,9 @@ export const options: NextAuthOptions = {
               },
             }
           );
-          return response.data.data;
+          return response.data;
         } catch (error) {
-          return null;
+          return error;
         }
       },
     }),

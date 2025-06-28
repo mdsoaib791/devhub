@@ -6,10 +6,7 @@
       "email": "jane@example.com",
       "bio": "Full Stack Developer",
       "avatar": "https://i.pravatar.cc/100?img=1",
-      "skills": [
-        "React",
-        "Node.js"
-      ],
+      "skills": ["React", "Node.js"],
       "social": {
         "github": "https://github.com/janedoe",
         "twitter": "https://twitter.com/janedoe"
@@ -26,6 +23,48 @@
       "created_at": "2024-06-28T12:00:00Z",
       "updated_at": "2024-06-28T12:00:00Z",
       "is_public": true
+    }
+  ],
+  "login": [
+    {
+      "id": "e714",
+      "email": "hussainabid7199@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": "9174",
+      "email": "hussainabid7199+1@gmail.com",
+      "password": "123456"
+    }
+  ],
+  "auth": [
+    {
+      "id": "1f5d",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "email": "hussainabid7199@gmail.com",
+        "password": "123456789",
+        "fullName": "Abid Hussain",
+        "confirmPassword": "123456789",
+        "termsAccepted": true
+      }
+    },
+    {
+      "id": "5433",
+      "method": "POST",
+      "headers": {
+        "Content-Type": "application/json"
+      },
+      "body": {
+        "email": "hussainabid7199+1@gmail.com",
+        "password": "123456789",
+        "fullName": "Abid Hussain+1",
+        "confirmPassword": "123456789",
+        "termsAccepted": true
+      }
     }
   ]
 }
