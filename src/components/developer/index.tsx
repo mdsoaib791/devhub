@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 function DevelopersWrapper() {
-  const { data, isLoading, error } = useGetAllDevelopers({});
+  const { data, isLoading, error } = useGetAllDevelopers();
   const [search, setSearch] = useState("");
   const [selectedSkill, setSelectedSkill] = useState("all");
 

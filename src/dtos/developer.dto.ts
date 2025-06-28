@@ -6,11 +6,11 @@ export interface SocialLinks {
 }
 
 export interface DeveloperDto {
-  id: string;
+  id: number;
+  userId: number; // <-- map to User
   name: string;
-  email: string;
-  bio: string | null;
-  avatar: string | null;
+  bio: string;
+  avatar: string;
   skills: string[];
   social: SocialLinks;
 }

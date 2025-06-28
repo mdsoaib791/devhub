@@ -9,19 +9,59 @@ import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react"
 import Link from "next/link"
+import { useRouter } from "next/navigation"
 import { useState } from "react"
 
 export default function AuthForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const router = useRouter();
+  const [form, setForm] = useState({ name: "", email: "", password: "" })
+  const [isRegister, setIsRegister] = useState(false)
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value })
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
     setIsLoading(true)
+    setError("")
+    const url = isRegister ? "/api/register" : "/api/login"
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    })
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 2000))
+    type ApiResponse = {
+      error?: string
+      token?: string
+      user?: unknown
+      [key: string]: unknown
+    }
+    let data: ApiResponse = {}
+    try {
+      data = await res.json()
+    } catch {
+      setError("Server error. Please try again.")
+      setIsLoading(false)
+      return
+    }
+
     setIsLoading(false)
+
+    if (!res.ok) {
+      setError(data.error || "Something went wrong")
+      return
+    }
+
+    // Store JWT in localStorage (or cookie)
+    localStorage.setItem("token", data.token ?? "")
+    // Optionally, store user info
+    localStorage.setItem("user", JSON.stringify(data.user))
+    router.push("/developers");
   }
 
   return (
@@ -38,7 +78,7 @@ export default function AuthForm() {
             <TabsTrigger value="login" className="text-sm font-medium">
               Sign In
             </TabsTrigger>
-            <TabsTrigger value="register" className="text-sm font-medium">
+            <TabsTrigger value="register" className="text-sm font-medium" onClick={() => setIsRegister(true)}>
               Sign Up
             </TabsTrigger>
           </TabsList>
@@ -61,10 +101,13 @@ export default function AuthForm() {
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                       <Input
                         id="login-email"
+                        name="email"
                         type="email"
                         placeholder="Enter your email"
                         className="pl-10 h-12"
                         required
+                        value={form.email}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -76,10 +119,13 @@ export default function AuthForm() {
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                       <Input
                         id="login-password"
+                        name="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Enter your password"
                         className="pl-10 pr-10 h-12"
                         required
+                        value={form.password}
+                        onChange={handleChange}
                       />
                       <button
                         type="button"
@@ -133,10 +179,13 @@ export default function AuthForm() {
                       <User className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                       <Input
                         id="register-name"
+                        name="name"
                         type="text"
                         placeholder="Enter your full name"
                         className="pl-10 h-12"
                         required
+                        value={form.name}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -148,10 +197,13 @@ export default function AuthForm() {
                       <Mail className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                       <Input
                         id="register-email"
+                        name="email"
                         type="email"
                         placeholder="Enter your email"
                         className="pl-10 h-12"
                         required
+                        value={form.email}
+                        onChange={handleChange}
                       />
                     </div>
                   </div>
@@ -163,10 +215,13 @@ export default function AuthForm() {
                       <Lock className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
                       <Input
                         id="register-password"
+                        name="password"
                         type={showPassword ? "text" : "password"}
                         placeholder="Create a password"
                         className="pl-10 pr-10 h-12"
                         required
+                        value={form.password}
+                        onChange={handleChange}
                       />
                       <button
                         type="button"

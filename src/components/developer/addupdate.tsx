@@ -10,6 +10,7 @@ import { DeveloperDto } from '@/dtos/developer.dto';
 import { useAddDeveloper, useUpdateDeveloper } from '@/hooks/services-hook/use-developer.service.hook';
 import developerValidationSchema from '@/validation-schema/contact-us.validation.schema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import Image from "next/image";
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsTwitterX } from "react-icons/bs";
@@ -34,7 +35,7 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
     defaultValues: defaultValues
       ? {
         name: defaultValues.name || '',
-        email: defaultValues.email || '',
+        // email: defaultValues.email || '',
         bio: defaultValues.bio || '',
         avatar: defaultValues.avatar || '',
         skills: defaultValues.skills || [],
@@ -55,7 +56,7 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
     if (defaultValues) {
       form.reset({
         name: defaultValues.name || '',
-        email: defaultValues.email || '',
+        // email: defaultValues.email || '',
         bio: defaultValues.bio || '',
         avatar: defaultValues.avatar || '',
         skills: defaultValues.skills || [],
@@ -63,7 +64,7 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
       });
       setSkillsInput(defaultValues.skills?.join(', ') || '');
     }
-    // eslint-disable-next-line
+
   }, [defaultValues]);
 
   // Keep form state in sync with skills input
@@ -75,7 +76,7 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
         .map((s) => s.trim())
         .filter(Boolean)
     );
-    // eslint-disable-next-line
+
   }, [skillsInput]);
 
   const onSubmit = (values: any) => {
@@ -104,7 +105,7 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                 <div className="flex flex-col items-center mb-4">
-                  <img
+                  <Image
                     src={avatarUrl}
                     alt="Avatar Preview"
                     width={80}
@@ -267,8 +268,5 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
         </Card>
       </div>
     </div>
-
-
-
   );
 }

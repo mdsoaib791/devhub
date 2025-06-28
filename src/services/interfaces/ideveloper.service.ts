@@ -1,8 +1,10 @@
+import { DeveloperDto } from "@/dtos/developer.dto";
+import { DeveloperModel } from "@/models/developer.model";
 
 export default interface IDeveloperService {
-  getAll(): Promise<any>;
-  getById(id: string): Promise<any>;
-  add(model: any): Promise<any>;
-  update(id: string, model: any): Promise<any>;
-  delete(id: string): Promise<any>;
+  getAll(): Promise<DeveloperDto[]>;
+  getById(id: string): Promise<DeveloperDto>;
+  add(model: DeveloperModel): Promise<DeveloperDto>;
+  update(id: string, model: DeveloperModel): Promise<DeveloperDto>;
+  delete(id: string): Promise<DeveloperDto>;
 }

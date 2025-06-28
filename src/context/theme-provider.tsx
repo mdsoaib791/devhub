@@ -20,7 +20,7 @@ const initialState: ThemeProviderState = {
   setTheme: () => null,
 };
 
-// eslint-disable-next-line @typescript-eslint/naming-convention
+
 const ThemeProviderContext = createContext<ThemeProviderState>(initialState);
 
 export function ThemeProvider({ children, defaultTheme = 'system', storageKey = 'devhuv-theme', ...props }: ThemeProviderProps) {

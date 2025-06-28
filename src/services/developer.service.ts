@@ -1,4 +1,5 @@
 
+import { DeveloperModel } from "@/models/developer.model";
 import axios from "axios";
 import IDeveloperService from "./interfaces/ideveloper.service";
 
@@ -13,11 +14,11 @@ export default class DeveloperService implements IDeveloperService {
     const res = await axios.get(`${API_BASE}/developers/${id}`);
     return res.data;
   }
-  async add(model: any) {
+  async add(model: DeveloperModel) {
     const res = await axios.post(`${API_BASE}/developers`, model);
     return res.data;
   }
-  async update(id: string, model: any) {
+  async update(id: string, model: DeveloperModel) {
     const res = await axios.put(`${API_BASE}/developers/${id}`, model);
     return res.data;
   }

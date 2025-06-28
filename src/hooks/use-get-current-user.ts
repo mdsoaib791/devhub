@@ -1,6 +1,6 @@
 import UserDto from '@/dtos/user.dto';
 import { useSession } from 'next-auth/react';
-import { useEffect, useState, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 const useGetCurrentUser = () => {
   const { data: session, status } = useSession();
@@ -18,7 +18,7 @@ const useGetCurrentUser = () => {
 
   const memoizedCurrentUser = useMemo(() => {
     return { currentUser, status, isAuthenticated };
-  }, [currentUser, status]);
+  }, [currentUser, status, isAuthenticated]);
 
   return memoizedCurrentUser;
 };

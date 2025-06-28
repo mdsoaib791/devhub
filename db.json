@@ -1,4 +1,12 @@
 {
+  "users": [
+    {
+      "id": "a378",
+      "email": "mdsoaib791@gmail.com",
+      "password": "Soaib123!@#",
+      "name": "soaib"
+    }
+  ],
   "developers": [
     {
       "id": "1",
@@ -48,6 +56,14 @@
         "linkedin": "",
         "website": ""
       }
+    },
+    {
+      "id": "e5ad",
+      "userId": "a378",
+      "name": "soaib",
+      "bio": "",
+      "avatar": "",
+      "skills": []
     }
   ],
   "blogs": [

@@ -1,28 +1,9 @@
-import RoleDto from './role.dto';
 
 export default interface UserDto {
-  id: string;
-  userName: string;
-  normalizedUserName: string;
+  id: number;
   email: string;
-  normalizedEmail: string;
-  emailConfirmed: boolean;
-  fullName: string;
-  companyName: string | null;
-  profilePicture: string | null;
-  isActive: boolean;
-  phoneNumber: string | null;
-  phoneNumberConfirmed: boolean;
-  twoFactorEnabled: boolean;
-  registerDate: string | null;
-  lockoutEnd: string | null;
-  lockoutEnabled: boolean;
-  accessFailedCount: number;
-  roleName: string;
-  role: RoleDto;
-  roles: RoleDto[] | null;
-  timezoneId: string | null;
-  token: string | null;
+  password: string;
+  name: string;
 }
 
 export interface UserBasicDto {

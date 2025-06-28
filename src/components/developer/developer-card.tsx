@@ -4,7 +4,8 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
-import { Github, Globe, Linkedin, Mail, Twitter } from "lucide-react"
+import { DeveloperDto } from "@/dtos/developer.dto"
+import { Github, Globe, Linkedin, Twitter } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -16,23 +17,13 @@ export interface SocialLinks {
   website?: string
 }
 
-export interface DeveloperDto {
-  id: string
-  name: string
-  email: string
-  bio: string | null
-  avatar: string | null
-  skills: string[]
-  social: SocialLinks
-}
-
 interface DeveloperCardProps {
   developer: DeveloperDto
 }
 
 export default function DeveloperCard({ developer }: DeveloperCardProps) {
   const router = useRouter();
-  const { id, name, email, bio, avatar, skills, social } = developer
+  const { id, name, bio, avatar, skills, social = {} } = developer; // <-- add = {}
 
   // Get initials for avatar fallback
   const getInitials = (name: string) => {
@@ -93,10 +84,10 @@ export default function DeveloperCard({ developer }: DeveloperCardProps) {
             {name}
           </h3>
 
-          <div className="flex items-center justify-center text-sm text-gray-600 dark:text-gray-400">
+          {/* <div className="flex items-center justify-center text-sm text-gray-600 dark:text-gray-400">
             <Mail className="w-4 h-4 mr-2" />
             <span className="truncate">{email}</span>
-          </div>
+          </div> */}
         </div>
       </CardHeader>
 
@@ -132,7 +123,7 @@ export default function DeveloperCard({ developer }: DeveloperCardProps) {
         <div className="flex justify-center space-x-4 pt-2">
           {socialLinks.map(({ icon: Icon, url, label, color }) =>
             url ? (
-              <a
+              <Link
                 key={label}
                 href={url}
                 target="_blank"
@@ -141,7 +132,7 @@ export default function DeveloperCard({ developer }: DeveloperCardProps) {
                 aria-label={label}
               >
                 <Icon className="w-5 h-5" />
-              </a>
+              </Link>
             ) : null,
           )}
         </div>
