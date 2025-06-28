@@ -19,8 +19,8 @@ export default class DeveloperService {
     const res = await axios.put(`${API_BASE}/developers/${id}`, model);
     return res.data;
   }
-  // async delete(id: number) {
-  //   const res = await axios.delete(`${API_BASE}/developers/${id}`);
-  //   return res.data;
-  // }
+  async delete(id: string) {
+    const res = await axios.delete(`${API_BASE}/developers/${id}`);
+    return res.data;
+  }
 }

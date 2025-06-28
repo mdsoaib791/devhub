@@ -1,30 +1,25 @@
 'use client'
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Form, FormControl, FormField, FormItem, FormMessage } from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { DeveloperDto } from '@/dtos/developer.dto';
 import { useAddDeveloper, useUpdateDeveloper } from '@/hooks/services-hook/use-developer.service.hook';
-import { DeveloperModel } from '@/models/developer.model';
+import developerValidationSchema from '@/validation-schema/contact-us.validation.schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import * as yup from 'yup';
+import { BsTwitterX } from "react-icons/bs";
+import { CgWebsite } from "react-icons/cg";
+import { FaGithub, FaLinkedinIn } from 'react-icons/fa6';
 
 type Props = {
   defaultValues?: DeveloperDto | null;
   onSuccess?: () => void;
 };
-
-const schema = yup.object().shape({
-  name: yup.string().required('Name is required'),
-  email: yup.string().email('Invalid email').required('Email is required'),
-  bio: yup.string().nullable(),
-  avatar: yup.string().url('Must be a valid URL').nullable(),
-  skills: yup.array().of(yup.string()).min(1, 'At least one skill is required'),
-  social: yup.object().shape({
-    github: yup.string().url('Must be a valid URL').nullable(),
-    twitter: yup.string().url('Must be a valid URL').nullable(),
-    linkedin: yup.string().url('Must be a valid URL').nullable(),
-    website: yup.string().url('Must be a valid URL').nullable(),
-  }),
-});
 
 export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Props) {
   const isEdit = !!defaultValues;
@@ -32,19 +27,10 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
   const { mutate: updateDeveloper, isPending: isUpdating } = useUpdateDeveloper();
 
   // For skills input as comma separated string
-  const [skillsInput, setSkillsInput] = useState(
-    defaultValues?.skills?.join(', ') || ''
-  );
+  const [skillsInput, setSkillsInput] = useState(defaultValues?.skills?.join(', ') || '');
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm<DeveloperModel>({
-    resolver: yupResolver(schema),
+  const form = useForm({
+    resolver: yupResolver(developerValidationSchema),
     defaultValues: defaultValues
       ? {
         name: defaultValues.name || '',
@@ -67,7 +53,7 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
   // Populate form if editing
   useEffect(() => {
     if (defaultValues) {
-      reset({
+      form.reset({
         name: defaultValues.name || '',
         email: defaultValues.email || '',
         bio: defaultValues.bio || '',
@@ -77,23 +63,25 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
       });
       setSkillsInput(defaultValues.skills?.join(', ') || '');
     }
-  }, [defaultValues, reset]);
+    // eslint-disable-next-line
+  }, [defaultValues]);
 
   // Keep form state in sync with skills input
   useEffect(() => {
-    setValue(
+    form.setValue(
       'skills',
       skillsInput
         .split(',')
         .map((s) => s.trim())
         .filter(Boolean)
     );
-  }, [skillsInput, setValue]);
+    // eslint-disable-next-line
+  }, [skillsInput]);
 
-  const onSubmit = (values: DeveloperModel) => {
+  const onSubmit = (values: any) => {
     if (isEdit && defaultValues?.id) {
       updateDeveloper(
-        { id: Number(defaultValues.id), model: values },
+        { id: defaultValues.id, model: values },
         { onSuccess }
       );
     } else {
@@ -101,99 +89,186 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
     }
   };
 
-  // Avatar preview
-  const avatarUrl = watch('avatar') || 'https://i.pravatar.cc/100';
-
-  // Social links preview
-  const social = watch('social') || {};
+  const avatarUrl = form.watch('avatar') || 'https://i.pravatar.cc/100';
+  const social = form.watch('social') || {};
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} style={{ maxWidth: 400 }}>
-      <div style={{ textAlign: 'center', marginBottom: 16 }}>
-        <img
-          src={avatarUrl}
-          alt="Avatar Preview"
-          width={80}
-          height={80}
-          style={{ borderRadius: '50%', objectFit: 'cover', border: '1px solid #eee' }}
-        />
+
+    <div className="container mx-auto my-8">
+      <div className="flex justify-center">
+        <Card className="w-full lg:w-[65%] xl:w-1/2 shadow-lg">
+          <CardHeader>
+            <CardTitle>{isEdit ? "Update Developer" : "Add Developer"}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+                <div className="flex flex-col items-center mb-4">
+                  <img
+                    src={avatarUrl}
+                    alt="Avatar Preview"
+                    width={80}
+                    height={80}
+                    className="rounded-full border border-gray-200 object-cover"
+                  />
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <FormField
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>Name *</Label>
+                        <FormControl>
+                          <Input placeholder="Name" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <Label>Email *</Label>
+                        <FormControl>
+                          <Input placeholder="Email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormField
+                  control={form.control}
+                  name="bio"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label>Bio</Label>
+                      <FormControl>
+                        <Textarea placeholder="Bio" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="avatar"
+                  render={({ field }) => (
+                    <FormItem>
+                      <Label>Avatar URL</Label>
+                      <FormControl>
+                        <Input placeholder="Avatar URL" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                {/* Skills as comma separated input */}
+                <FormItem>
+                  <Label>Skills (comma separated) *</Label>
+                  <FormControl>
+                    <Input
+                      value={skillsInput}
+                      onChange={e => setSkillsInput(e.target.value)}
+                      placeholder="e.g. React, Node.js"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+                <fieldset className="border p-3 rounded space-y-2">
+                  <legend className="font-semibold">Social Links</legend>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <FormField
+                      control={form.control}
+                      name="social.github"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Label>GitHub</Label>
+                          <FormControl>
+                            <Input placeholder="GitHub URL" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="social.twitter"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Label>Twitter</Label>
+                          <FormControl>
+                            <Input placeholder="Twitter URL" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="social.linkedin"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Label>LinkedIn</Label>
+                          <FormControl>
+                            <Input placeholder="LinkedIn URL" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="social.website"
+                      render={({ field }) => (
+                        <FormItem>
+                          <Label>Website</Label>
+                          <FormControl>
+                            <Input placeholder="Website URL" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex gap-2 mt-2">
+                    {social.github && (
+                      <a href={social.github} target="_blank" rel="noopener noreferrer">
+                        <FaGithub />
+                      </a>
+                    )}
+                    {social.twitter && (
+                      <a href={social.twitter} target="_blank" rel="noopener noreferrer">
+                        <BsTwitterX />
+                      </a>
+                    )}
+                    {social.linkedin && (
+                      <a href={social.linkedin} target="_blank" rel="noopener noreferrer">
+                        <FaLinkedinIn />
+                      </a>
+                    )}
+                    {social.website && (
+                      <a href={social.website} target="_blank" rel="noopener noreferrer">
+                        <CgWebsite />
+                      </a>
+                    )}
+                  </div>
+                </fieldset>
+                <Button type="submit" disabled={isAdding || isUpdating} className="w-full mt-2">
+                  {isEdit ? (isUpdating ? 'Updating...' : 'Update Developer') : (isAdding ? 'Adding...' : 'Add Developer')}
+                </Button>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
       </div>
-      <div>
-        <label>Name *</label>
-        <input {...register('name')} />
-        <div style={{ color: 'red' }}>{errors.name?.message}</div>
-      </div>
-      <div>
-        <label>Email *</label>
-        <input {...register('email')} />
-        <div style={{ color: 'red' }}>{errors.email?.message}</div>
-      </div>
-      <div>
-        <label>Bio</label>
-        <textarea {...register('bio')} />
-        <div style={{ color: 'red' }}>{errors.bio?.message}</div>
-      </div>
-      <div>
-        <label>Avatar URL</label>
-        <input {...register('avatar')} />
-        <div style={{ color: 'red' }}>{errors.avatar?.message}</div>
-      </div>
-      <div>
-        <label>Skills (comma separated) *</label>
-        <input
-          value={skillsInput}
-          onChange={e => setSkillsInput(e.target.value)}
-        />
-        <div style={{ color: 'red' }}>{errors.skills?.message}</div>
-      </div>
-      <fieldset style={{ marginTop: 12 }}>
-        <legend>Social Links</legend>
-        <div>
-          <label>GitHub</label>
-          <input {...register('social.github')} />
-          <div style={{ color: 'red' }}>{errors.social?.github?.message}</div>
-        </div>
-        <div>
-          <label>Twitter</label>
-          <input {...register('social.twitter')} />
-          <div style={{ color: 'red' }}>{errors.social?.twitter?.message}</div>
-        </div>
-        <div>
-          <label>LinkedIn</label>
-          <input {...register('social.linkedin')} />
-          <div style={{ color: 'red' }}>{errors.social?.linkedin?.message}</div>
-        </div>
-        <div>
-          <label>Website</label>
-          <input {...register('social.website')} />
-          <div style={{ color: 'red' }}>{errors.social?.website?.message}</div>
-        </div>
-        <div style={{ marginTop: 8 }}>
-          {social.github && (
-            <a href={social.github} target="_blank" rel="noopener noreferrer" style={{ marginRight: 8 }}>
-              <img src="/icons/github.svg" alt="GitHub" width={20} height={20} />
-            </a>
-          )}
-          {social.twitter && (
-            <a href={social.twitter} target="_blank" rel="noopener noreferrer" style={{ marginRight: 8 }}>
-              <img src="/icons/twitter.svg" alt="Twitter" width={20} height={20} />
-            </a>
-          )}
-          {social.linkedin && (
-            <a href={social.linkedin} target="_blank" rel="noopener noreferrer" style={{ marginRight: 8 }}>
-              <img src="/icons/linkedin.svg" alt="LinkedIn" width={20} height={20} />
-            </a>
-          )}
-          {social.website && (
-            <a href={social.website} target="_blank" rel="noopener noreferrer" style={{ marginRight: 8 }}>
-              <img src="/icons/link.svg" alt="Website" width={20} height={20} />
-            </a>
-          )}
-        </div>
-      </fieldset>
-      <button type="submit" disabled={isAdding || isUpdating} style={{ marginTop: 16 }}>
-        {isEdit ? (isUpdating ? 'Updating...' : 'Update Developer') : (isAdding ? 'Adding...' : 'Add Developer')}
-      </button>
-    </form>
+    </div>
+
+
+
   );
 }

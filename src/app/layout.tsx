@@ -1,3 +1,5 @@
+import Footer from "@/components/footer";
+import Header from "@/components/header";
 import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/context/auth-provider";
 import ReactQueryProvider from "@/context/ReactQueryProvider";
@@ -38,7 +40,10 @@ export default function RootLayout({
           <ReduxStoreProvider>
             <AuthProvider>
               <ThemeProvider defaultTheme="light" storageKey="devhuv-theme">
-                <Suspense>{children}</Suspense>
+                <Suspense>
+                  <Header />
+                  <main className="min-h-[80vh]">{children}</main>
+                  <Footer /></Suspense>
                 <Toaster />
               </ThemeProvider>
             </AuthProvider>

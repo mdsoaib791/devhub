@@ -19,7 +19,7 @@ const useGetAllDevelopers = (params = {}) => {
   });
 };
 
-const useGetDeveloperById = (id: number, enabled: boolean = true) => {
+const useGetDeveloperById = (id: string, enabled: boolean = true) => {
   const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
 
   return useQuery({
@@ -57,7 +57,7 @@ const useUpdateDeveloper = () => {
   const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
   const queryClient = useQueryClient();
 
-  const mutationFn = async (args: { id: number; model: DeveloperModel }) => {
+  const mutationFn = async (args: { id: string; model: DeveloperModel }) => {
     return unitOfService.DeveloperService.update(args.id, args.model);
   };
 
@@ -74,29 +74,28 @@ const useUpdateDeveloper = () => {
   });
 };
 
-// const useDeleteDeveloperById = () => {
-//   const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
-//   const queryClient = useQueryClient();
-//   const mutationFn = async (id: number) => {
-//     return unitOfService.DeveloperService.delete(id);
-//   };
+const useDeleteDeveloperById = () => {
+  const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
+  const queryClient = useQueryClient();
+  const mutationFn = async (id: string) => {
+    return unitOfService.DeveloperService.delete(id);
+  };
 
-//   return useMutation({
-//     mutationFn,
-//     onSettled: () => {
-//       queryClient.invalidateQueries({
-//         queryKey: ['DeveloperService.getAll'],
-//       });
-//     },
-//     onError: (error) => {
-//       return error;
-//     },
-//   });
-// };
+  return useMutation({
+    mutationFn,
+    onSettled: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['DeveloperService.getAll'],
+      });
+    },
+    onError: (error) => {
+      return error;
+    },
+  });
+};
 
 export {
-  useAddDeveloper, useGetAllDevelopers,
-  useGetDeveloperById,
+  useAddDeveloper, useDeleteDeveloperById, useGetAllDevelopers, useGetDeveloperById,
   useUpdateDeveloper
 };
 

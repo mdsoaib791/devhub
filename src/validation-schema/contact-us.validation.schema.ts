@@ -1,29 +1,18 @@
-import { ContactUsModel } from '@/models/contact-us.model';
-import * as Yup from 'yup';
-import { emailField, messageField, nameField, phoneField, recaptchaTokenField } from './website-main-common-validations.schema';
+import { DeveloperModel } from '@/models/developer.model';
+import * as yup from 'yup';
 
-const contactUsSchema: Yup.ObjectSchema<ContactUsModel> = Yup.object().shape({
-  fullName: nameField(),
-  email: emailField(),
-  phone: phoneField(),
-  companyName: Yup.string()
-    .required('Company is required.')
-    .test('companyValidation', 'Company name can only contain letters, numbers, spaces, periods, hyphens, and ampersands.', (value) => {
-      if (value) {
-        const matchPattern = /^[a-zA-Z0-9\s\.\-&]+$/;
-        return matchPattern.test(value);
-      }
-      return true;
-    })
-    .max(100, 'Company name must not exceed ${max} characters.'),
-  message: messageField({
-    required: true,
-    messages: {
-      required: 'Comments is required.',
-      invalid: 'Invalid characters in comments.',
-    },
+const developerValidationSchema: yup.ObjectSchema<DeveloperModel> = yup.object().shape({
+  name: yup.string().required('Name is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
+  bio: yup.string(),
+  avatar: yup.string().url('Must be a valid URL'),
+  skills: yup.array().of(yup.string().required()).min(1, 'At least one skill is required').required('Skills are required'),
+  social: yup.object().shape({
+    github: yup.string().url('Must be a valid URL'),
+    twitter: yup.string().url('Must be a valid URL'),
+    linkedin: yup.string().url('Must be a valid URL'),
+    website: yup.string().url('Must be a valid URL'),
   }),
-  recaptchaToken: recaptchaTokenField(),
 });
 
-export default contactUsSchema;
+export default developerValidationSchema;

@@ -1,7 +1,7 @@
 {
   "developers": [
     {
-      "id": 1,
+      "id": "1",
       "name": "Jane Doe",
       "email": "jane@example.com",
       "bio": "Full Stack Developer",
@@ -14,11 +14,45 @@
         "github": "https://github.com/janedoe",
         "twitter": "https://twitter.com/janedoe"
       }
+    },
+    {
+      "id": "fb61",
+      "name": "soaib",
+      "email": "soaib@gmail.com",
+      "bio": "React js developer at first bit digital technology",
+      "avatar": "",
+      "skills": [
+        "react js",
+        "next js"
+      ],
+      "social": {
+        "github": "",
+        "twitter": "",
+        "linkedin": "",
+        "website": ""
+      }
+    },
+    {
+      "id": "75b6",
+      "name": "soaib",
+      "email": "soaib@gmail.com",
+      "bio": "React js developer at first bit digital technology",
+      "avatar": "",
+      "skills": [
+        "react js",
+        "next js"
+      ],
+      "social": {
+        "github": "",
+        "twitter": "",
+        "linkedin": "",
+        "website": ""
+      }
     }
   ],
   "blogs": [
     {
-      "id": 1,
+      "id": "1",
       "developer_id": 1,
       "title": "My First Blog",
       "excerpt": "This is my first blog post.",
