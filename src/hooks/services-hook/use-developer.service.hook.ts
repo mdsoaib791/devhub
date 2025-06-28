@@ -1,43 +1,36 @@
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-
 import { iocContainer } from '@/ioc/container.ioc';
 import { IOCTYPES } from '@/ioc/types.ioc';
-
-import IUnitOfService from '@/services/interfaces/iunitof.service';
-
 import { DeveloperModel } from '@/models/developer.model';
+import IDeveloperService from '@/services/interfaces/ideveloper.service';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+const developerService = iocContainer.get<IDeveloperService>(IOCTYPES.IDeveloperService);
 
 const useGetAllDevelopers = (params = {}) => {
-  const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
-
   return useQuery({
     queryKey: ['DeveloperService.getAll'],
     queryFn: async () => {
-      // This should return an array
-      return await unitOfService.DeveloperService.getAll();
+      return await developerService.getAll();
     },
   });
 };
 
 const useGetDeveloperById = (id: string, enabled: boolean = true) => {
-  const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
-
   return useQuery({
     queryKey: ['DeveloperService.getById', id],
     queryFn: async () => {
       if (!id) return null;
-      return await unitOfService.DeveloperService.getById(id);
+      return await developerService.getById(id);
     },
     enabled: enabled,
   });
 };
 
 const useAddDeveloper = () => {
-  const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
   const queryClient = useQueryClient();
 
   const mutationFn = async (model: DeveloperModel) => {
-    return unitOfService.DeveloperService.add(model);
+    return developerService.add(model);
   };
 
   return useMutation({
@@ -54,11 +47,10 @@ const useAddDeveloper = () => {
 };
 
 const useUpdateDeveloper = () => {
-  const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
   const queryClient = useQueryClient();
 
   const mutationFn = async (args: { id: string; model: DeveloperModel }) => {
-    return unitOfService.DeveloperService.update(args.id, args.model);
+    return developerService.update(args.id, args.model);
   };
 
   return useMutation({
@@ -75,10 +67,9 @@ const useUpdateDeveloper = () => {
 };
 
 const useDeleteDeveloperById = () => {
-  const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
   const queryClient = useQueryClient();
   const mutationFn = async (id: string) => {
-    return unitOfService.DeveloperService.delete(id);
+    return developerService.delete(id);
   };
 
   return useMutation({

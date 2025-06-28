@@ -1,7 +1,5 @@
-const iocTypes = {
-  IDeveloperService: Symbol.for('IDeveloperService'),
-  IUnitOfService: Symbol.for('IUnitOfService'),
+export const IOCTYPES = {
+  IDeveloperService: Symbol.for("IDeveloperService"),
+  IUnitOfService: Symbol.for("IUnitOfService"),
 };
-
-export { iocTypes as IOCTYPES };
 

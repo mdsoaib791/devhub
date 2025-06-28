@@ -1,4 +1,4 @@
-
+'use client'
 import DevelopersWrapper from "@/components/developer"
 
 function Developers() {

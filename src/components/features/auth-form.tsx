@@ -25,10 +25,10 @@ export default function AuthForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-accent p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">Welcome DevHub</h1>
+          <h1 className="text-3xl font-bold text-primary mb-2">Welcome DevHub</h1>
           <Link href="/developers" className="text-blue-600 hover:text-blue-800 text-sm">Go To Developers</Link>
           <p className="text-slate-600">Sign in to your account or create a new one</p>
         </div>

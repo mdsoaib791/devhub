@@ -43,7 +43,8 @@ export default function RootLayout({
                 <Suspense>
                   <Header />
                   <main className="min-h-[80vh]">{children}</main>
-                  <Footer /></Suspense>
+                  <Footer />
+                </Suspense>
                 <Toaster />
               </ThemeProvider>
             </AuthProvider>
