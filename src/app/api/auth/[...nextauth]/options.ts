@@ -33,7 +33,7 @@ export const options: NextAuthOptions = {
           );
           return response.data.data;
         } catch (error) {
-          return null;
+          return error;
         }
       },
     }),
