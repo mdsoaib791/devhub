@@ -1,4 +1,5 @@
-import DevelopersWrapper from "@/components/developer";
+
+import DevelopersWrapper from "@/components/developer"
 
 function Developers() {
   return (

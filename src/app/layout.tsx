@@ -37,7 +37,7 @@ export default function RootLayout({
         <ReactQueryProvider>
           <ReduxStoreProvider>
             <AuthProvider>
-              <ThemeProvider defaultTheme="light" storageKey="tci-ui-theme">
+              <ThemeProvider defaultTheme="light" storageKey="devhuv-theme">
                 <Suspense>{children}</Suspense>
                 <Toaster />
               </ThemeProvider>

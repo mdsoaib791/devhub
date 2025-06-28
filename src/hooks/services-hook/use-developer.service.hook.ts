@@ -6,17 +6,16 @@ import { IOCTYPES } from '@/ioc/types.ioc';
 import IUnitOfService from '@/services/interfaces/iunitof.service';
 
 import { DeveloperModel } from '@/models/developer.model';
-import { DeveloperListParams } from '@/params/developer-list.params';
 
-const useGetAllDevelopers = (p: DeveloperListParams, enabled: boolean = true) => {
+const useGetAllDevelopers = (params = {}) => {
   const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
 
   return useQuery({
-    queryKey: ['DeveloperService.getAll', p],
+    queryKey: ['DeveloperService.getAll'],
     queryFn: async () => {
+      // This should return an array
       return await unitOfService.DeveloperService.getAll();
     },
-    enabled: enabled,
   });
 };
 
@@ -75,28 +74,28 @@ const useUpdateDeveloper = () => {
   });
 };
 
-const useDeleteDeveloperById = () => {
-  const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
-  const queryClient = useQueryClient();
-  const mutationFn = async (id: number) => {
-    return unitOfService.DeveloperService.delete(id);
-  };
+// const useDeleteDeveloperById = () => {
+//   const unitOfService = iocContainer.get<IUnitOfService>(IOCTYPES.IUnitOfService);
+//   const queryClient = useQueryClient();
+//   const mutationFn = async (id: number) => {
+//     return unitOfService.DeveloperService.delete(id);
+//   };
 
-  return useMutation({
-    mutationFn,
-    onSettled: () => {
-      queryClient.invalidateQueries({
-        queryKey: ['DeveloperService.getAll'],
-      });
-    },
-    onError: (error) => {
-      return error;
-    },
-  });
-};
+//   return useMutation({
+//     mutationFn,
+//     onSettled: () => {
+//       queryClient.invalidateQueries({
+//         queryKey: ['DeveloperService.getAll'],
+//       });
+//     },
+//     onError: (error) => {
+//       return error;
+//     },
+//   });
+// };
 
 export {
-  useAddDeveloper, useDeleteDeveloperById, useGetAllDevelopers,
+  useAddDeveloper, useGetAllDevelopers,
   useGetDeveloperById,
   useUpdateDeveloper
 };

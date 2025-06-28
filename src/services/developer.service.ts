@@ -1,11 +1,8 @@
 import axios from "axios";
-import { injectable } from "inversify";
-import IDeveloperService from "./interfaces/ideveloper.service";
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:4000";
 
-@injectable()
-export default class DeveloperService implements IDeveloperService {
+export default class DeveloperService {
   async getAll() {
     const res = await axios.get(`${API_BASE}/developers`);
     return res.data;
@@ -22,8 +19,8 @@ export default class DeveloperService implements IDeveloperService {
     const res = await axios.put(`${API_BASE}/developers/${id}`, model);
     return res.data;
   }
-  async delete(id: number) {
-    const res = await axios.delete(`${API_BASE}/developers/${id}`);
-    return res.data;
-  }
+  // async delete(id: number) {
+  //   const res = await axios.delete(`${API_BASE}/developers/${id}`);
+  //   return res.data;
+  // }
 }
