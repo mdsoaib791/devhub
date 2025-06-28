@@ -6,7 +6,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 const developerService = iocContainer.get<IDeveloperService>(IOCTYPES.IDeveloperService);
 
-const useGetAllDevelopers = (params = {}) => {
+const useGetAllDevelopers = () => {
   return useQuery({
     queryKey: ['DeveloperService.getAll'],
     queryFn: async () => {

@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { DeveloperDto } from '@/dtos/developer.dto';
 import { useAddDeveloper, useUpdateDeveloper } from '@/hooks/services-hook/use-developer.service.hook';
-import developerValidationSchema from '@/validation-schema/contact-us.validation.schema';
+import { DeveloperModel } from "@/models/developer.model";
+import developerValidationSchema from '@/validation-schema/developer.validation.schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 import Image from "next/image";
 import { useEffect, useState } from 'react';
@@ -64,8 +65,7 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
       });
       setSkillsInput(defaultValues.skills?.join(', ') || '');
     }
-
-  }, [defaultValues]);
+  }, [defaultValues, form]); // <-- add form here
 
   // Keep form state in sync with skills input
   useEffect(() => {
@@ -76,13 +76,12 @@ export default function DeveloperAddUpdateForm({ defaultValues, onSuccess }: Pro
         .map((s) => s.trim())
         .filter(Boolean)
     );
+  }, [skillsInput, form]); // <-- add form here
 
-  }, [skillsInput]);
-
-  const onSubmit = (values: any) => {
+  const onSubmit = (values: DeveloperModel) => {
     if (isEdit && defaultValues?.id) {
       updateDeveloper(
-        { id: defaultValues.id, model: values },
+        { id: String(defaultValues.id), model: values },
         { onSuccess }
       );
     } else {

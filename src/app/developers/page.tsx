@@ -1,10 +1,10 @@
 'use client'
 import DevelopersWrapper from "@/components/developer"
 
-function Developers() {
+export default function Page() {
   return (
     <DevelopersWrapper />
   )
 }
 
-export default Developers
+

@@ -1,4 +1,5 @@
 import config from '@/config';
+
 import PlainDto from '@/dtos/plain.dto';
 import Response from '@/dtos/response.dto';
 import axios, { AxiosResponse } from 'axios';
@@ -12,33 +13,33 @@ export default class ErrorHandlerService implements IErrorHandlerService {
   getErrorMessage<T>(error: AxiosResponse<Response<T>>): string {
     try {
       if (axios.isAxiosError(error)) {
-        const actualError: Response<any> = error.response?.data;
+        const actualError: Response<T> | undefined = error.response?.data;
 
         if (actualError) {
           if (actualError.errors) return actualError.errors.join('<br/>');
           else if (actualError.data) {
-            return actualError.data;
+            return String(actualError.data);
           } else {
             if (config.enviroment === 'production') {
               return 'Some error occured';
             } else {
-              return actualError as unknown as string;
+              return JSON.stringify(actualError);
             }
           }
         }
       } else {
         if (error?.data?.errors) {
-          const actualError: Response<any> = error?.data;
+          const actualError: Response<T> = error?.data;
 
           if (actualError) {
             if (actualError.errors) return actualError.errors.join('<br/>');
             else if (actualError.data) {
-              return actualError.data;
+              return String(actualError.data);
             } else {
               if (config.enviroment === 'production') {
                 return 'Some error occured';
               } else {
-                return actualError as unknown as string;
+                return JSON.stringify(actualError);
               }
             }
           } else {
@@ -58,7 +59,7 @@ export default class ErrorHandlerService implements IErrorHandlerService {
         }
       }
       return 'Some error occured';
-    } catch (err) {
+    } catch {
       return 'Some error occured.';
     }
   }

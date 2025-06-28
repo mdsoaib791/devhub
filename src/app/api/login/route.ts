@@ -22,8 +22,7 @@ export async function POST(req: NextRequest) {
     console.log("JWT issued:", token);
 
     return NextResponse.json({ token, user });
-  } catch (error) {
-    console.error("Login API error:", error);
+  } catch {
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }

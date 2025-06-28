@@ -7,7 +7,6 @@ import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card"
 import { DeveloperDto } from "@/dtos/developer.dto"
 import { Github, Globe, Linkedin, Twitter } from "lucide-react"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 
 
 export interface SocialLinks {
@@ -22,8 +21,7 @@ interface DeveloperCardProps {
 }
 
 export default function DeveloperCard({ developer }: DeveloperCardProps) {
-  const router = useRouter();
-  const { id, name, bio, avatar, skills, social = {} } = developer; // <-- add = {}
+  const { id, name, bio, avatar, skills, social = {} } = developer;
 
   // Get initials for avatar fallback
   const getInitials = (name: string) => {
@@ -143,7 +141,7 @@ export default function DeveloperCard({ developer }: DeveloperCardProps) {
           asChild
           className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
         >
-          <Link href={`/developers/details/${id}`}>View Profile</Link>
+          <Link href={`/developers/details/${id }`}>View Profile</Link>
         </Button>
       </CardFooter>
     </Card>

@@ -8,6 +8,7 @@ import DeveloperCard from "./developer-card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { DeveloperDto } from "@/dtos/developer.dto";
 
 function DevelopersWrapper() {
   const { data, isLoading, error } = useGetAllDevelopers();
@@ -18,7 +19,7 @@ function DevelopersWrapper() {
   const allSkills = useMemo(() => {
     if (!data) return [];
     const skillsSet = new Set<string>();
-    data.forEach((dev: any) => {
+    (data as DeveloperDto[]).forEach((dev) => {
       dev.skills?.forEach((skill: string) => skillsSet.add(skill));
     });
     return Array.from(skillsSet);
@@ -28,8 +29,8 @@ function DevelopersWrapper() {
   if (error) return <div>Error loading developers</div>;
 
   // Filter developers by name and selected skill
-  const filtered = data?.filter(
-    (dev: any) =>
+  const filtered = (data as DeveloperDto[] | undefined)?.filter(
+    (dev) =>
       dev.name.toLowerCase().includes(search.toLowerCase()) &&
       (selectedSkill === "all" ||
         dev.skills?.map((s: string) => s.toLowerCase()).includes(selectedSkill.toLowerCase()))
@@ -74,7 +75,7 @@ function DevelopersWrapper() {
 
       <div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
-          {filtered?.map((dev: any) => (
+          {filtered?.map((dev) => (
             <DeveloperCard key={dev.id} developer={dev} />
           ))}
         </div>

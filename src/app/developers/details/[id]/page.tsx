@@ -1,12 +1,5 @@
-import DeveloperDetailsWrapper from "@/components/developer/developer-details"
+import DeveloperDetailsWrapper from "@/components/developer/developer-details";
 
-function DeveloperDetails(params: { params: { id: string } }) {
-  const { id } = params.params
-  return (
-    <div>
-      <DeveloperDetailsWrapper id={id} />
-    </div>
-  )
+export default function Page({ params }: { params: { id: string } }) {
+  return <DeveloperDetailsWrapper id={params.id} />;
 }
-
-export default DeveloperDetails

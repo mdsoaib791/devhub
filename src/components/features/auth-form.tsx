@@ -15,10 +15,10 @@ import { useState } from "react"
 export default function AuthForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState("")
   const router = useRouter();
   const [form, setForm] = useState({ name: "", email: "", password: "" })
   const [isRegister, setIsRegister] = useState(false)
+  const [error, setError] = useState("")
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value })
@@ -27,7 +27,6 @@ export default function AuthForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    setError("")
     const url = isRegister ? "/api/register" : "/api/login"
     const res = await fetch(url, {
       method: "POST",
@@ -45,7 +44,6 @@ export default function AuthForm() {
     try {
       data = await res.json()
     } catch {
-      setError("Server error. Please try again.")
       setIsLoading(false)
       return
     }
@@ -56,6 +54,8 @@ export default function AuthForm() {
       setError(data.error || "Something went wrong")
       return
     }
+
+    setError("")
 
     // Store JWT in localStorage (or cookie)
     localStorage.setItem("token", data.token ?? "")
@@ -274,6 +274,8 @@ export default function AuthForm() {
             </Card>
           </TabsContent>
         </Tabs>
+
+        {error && <div className="text-red-500 text-center mb-4">{error}</div>}
 
         <div className="mt-6 text-center">
           <p className="text-sm text-slate-600">
