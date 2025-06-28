@@ -1,27 +1,50 @@
 // src/app/api/developers/route.ts
 
-import { NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
 
-const mockDevelopers = Array.from({ length: 50 }, (_, i) => ({
-  id: `${i + 1}`,
-  name: `Developer ${i + 1}`,
-  avatar: `https://i.pravatar.cc/150?img=${(i % 70) + 1}`,
-  bio: `This is a mock bio for Developer ${i + 1}.`,
-  skills: ['React', 'Node.js', 'TypeScript'].slice(0, (i % 3) + 1),
-}));
+const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_ANON_KEY!);
 
-export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const page = Number(searchParams.get('page') || 1);
-  const perPage = 10;
+export async function GET(req: Request, { params }: { params: { id: string } }) {
+  // Get developer
+  const { data: developer, error: devError } = await supabase
+    .from('developers')
+    .select('*')
+    .eq('id', params.id)
+    .single();
 
-  const start = (page - 1) * perPage;
-  const end = start + perPage;
+  if (devError || !developer) {
+    return Response.json({ data: null, success: false, message: devError?.message || 'Not found' }, { status: 404 });
+  }
 
-  const data = mockDevelopers.slice(start, end);
+  // Get blogs for developer
+  const { data: blogs, error: blogError } = await supabase
+    .from('blogs')
+    .select('id, title, excerpt, created_at')
+    .eq('developer_id', params.id)
+    .eq('is_public', true)
+    .order('created_at', { ascending: false });
 
-  return NextResponse.json({
-    developers: data,
-    hasMore: end < mockDevelopers.length,
+  return Response.json({
+    data: {
+      ...developer,
+      blogs: blogs || [],
+    },
+    success: true,
+    message: null,
   });
 }
+
+export async function PUT(req: Request, { params }: { params: { id: string } }) {
+  const body = await req.json();
+  const { data, error } = await supabase.from('developers').update(body).eq('id', params.id).select().single();
+  if (error) {
+    return Response.json({ data: null, success: false, message: error.message }, { status: 400 });
+  }
+  return Response.json({
+    data,
+    success: true,
+    message: null,
+  });
+}
+
+

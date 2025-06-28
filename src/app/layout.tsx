@@ -1,6 +1,11 @@
+import { Toaster } from "@/components/ui/toaster";
+import AuthProvider from "@/context/auth-provider";
 import ReactQueryProvider from "@/context/ReactQueryProvider";
+import ReduxStoreProvider from "@/context/redux-store-provider";
+import { ThemeProvider } from "@/context/theme-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { Suspense } from "react";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -28,8 +33,21 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <ReactQueryProvider>{children}</ReactQueryProvider>
+        {/* <NextTopLoader color="#67be8c" showSpinner={false} /> */}
+        <ReactQueryProvider>
+          <ReduxStoreProvider>
+            <AuthProvider>
+              <ThemeProvider defaultTheme="light" storageKey="tci-ui-theme">
+                <Suspense>{children}</Suspense>
+                <Toaster />
+              </ThemeProvider>
+            </AuthProvider>
+          </ReduxStoreProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );
 }
+
+
+

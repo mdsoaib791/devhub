@@ -1,17 +1,16 @@
+export interface SocialLinks {
+  github?: string;
+  twitter?: string;
+  linkedin?: string;
+  website?: string;
+}
+
 export interface DeveloperDto {
   id: string;
   name: string;
-  avatar: string;
-  bio: string;
+  email: string;
+  bio: string | null;
+  avatar: string | null;
   skills: string[];
-  social: {
-    github?: string;
-    linkedin?: string;
-  };
-  blogs: {
-    id: string;
-    title: string;
-    excerpt: string;
-    date: string;
-  }[];
+  social: SocialLinks;
 }

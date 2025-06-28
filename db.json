@@ -1,0 +1,31 @@
+{
+  "developers": [
+    {
+      "id": 1,
+      "name": "Jane Doe",
+      "email": "jane@example.com",
+      "bio": "Full Stack Developer",
+      "avatar": "https://i.pravatar.cc/100?img=1",
+      "skills": [
+        "React",
+        "Node.js"
+      ],
+      "social": {
+        "github": "https://github.com/janedoe",
+        "twitter": "https://twitter.com/janedoe"
+      }
+    }
+  ],
+  "blogs": [
+    {
+      "id": 1,
+      "developer_id": 1,
+      "title": "My First Blog",
+      "excerpt": "This is my first blog post.",
+      "content": "Hello, world!",
+      "created_at": "2024-06-28T12:00:00Z",
+      "updated_at": "2024-06-28T12:00:00Z",
+      "is_public": true
+    }
+  ]
+}

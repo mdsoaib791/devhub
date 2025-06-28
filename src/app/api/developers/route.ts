@@ -1,26 +1,31 @@
-import { NextResponse } from 'next/server';
+import { createClient } from '@supabase/supabase-js';
 
-const allDevelopers = Array.from({ length: 50 }, (_, i) => ({
-  id: `${i + 1}`,
-  name: `Dev ${i + 1}`,
-  avatar: `https://i.pravatar.cc/150?img=${i + 1}`,
-  bio: `Bio for Dev ${i + 1}`,
-  skills: ["React", "Node", "TypeScript"].slice(0, (i % 3) + 1),
-  social: {
-    github: "https://github.com/dev",
-    linkedin: "https://linkedin.com/in/dev",
-  }
-}));
+const supabase = createClient(
+  process.env.SUPABASE_URL!,
+  process.env.SUPABASE_ANON_KEY!
+);
 
 export async function GET(req: Request) {
-  const { searchParams } = new URL(req.url);
-  const page = parseInt(searchParams.get('page') || '1');
-  const limit = 10;
-  const start = (page - 1) * limit;
-  const end = start + limit;
+  const { data, error } = await supabase.from('developers').select('*');
+  if (error) {
+    return Response.json({ data: null, success: false, message: error.message }, { status: 500 });
+  }
+  return Response.json({
+    data: { items: data, total: data.length, nextPage: null },
+    success: true,
+    message: null,
+  });
+}
 
-  const data = allDevelopers.slice(start, end);
-  const nextPage = end < allDevelopers.length ? page + 1 : null;
-
-  return NextResponse.json({ data, nextPage });
+export async function POST(req: Request) {
+  const body = await req.json();
+  const { data, error } = await supabase.from('developers').insert([body]).select().single();
+  if (error) {
+    return Response.json({ data: null, success: false, message: error.message }, { status: 400 });
+  }
+  return Response.json({
+    data,
+    success: true,
+    message: null,
+  }, { status: 201 });
 }
