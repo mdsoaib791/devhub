@@ -1,14 +1,12 @@
 import Footer from "@/components/footer";
 import Header from "@/components/header";
-
-
 import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/context/auth-provider";
 import ReactQueryProvider from "@/context/ReactQueryProvider";
-import ReduxStoreProvider from "@/context/redux-store-provider";
 import { ThemeProvider } from "@/context/theme-provider";
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import NextTopLoader from 'nextjs-toploader';
 import { Suspense } from "react";
 import "./globals.css";
 
@@ -37,20 +35,18 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {/* <NextTopLoader color="#67be8c" showSpinner={false} /> */}
+        <NextTopLoader color="#67be8c" showSpinner={false} />
         <ReactQueryProvider>
-          <ReduxStoreProvider>
-            <AuthProvider>
-              <ThemeProvider defaultTheme="light" storageKey="devhuv-theme">
-                <Suspense>
-                  <Header />
-                  <main className="min-h-[80vh]">{children}</main>
-                  <Footer />
-                  <Toaster />
-                </Suspense>
-              </ThemeProvider>
-            </AuthProvider>
-          </ReduxStoreProvider>
+          <AuthProvider>
+            <ThemeProvider defaultTheme="light" storageKey="devhuv-theme">
+              <Suspense>
+                <Header />
+                <main className="min-h-[80vh]">{children}</main>
+                <Footer />
+                <Toaster />
+              </Suspense>
+            </ThemeProvider>
+          </AuthProvider>
         </ReactQueryProvider>
       </body>
     </html>
