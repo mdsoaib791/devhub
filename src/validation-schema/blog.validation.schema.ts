@@ -15,6 +15,12 @@ export const blogValidationSchema: yup.ObjectSchema<BlogModel> = yup.object().sh
   userId: yup
     .string()
     .required("User ID is required"),
+  social: yup.object({
+    twitter: yup.string().optional(),
+    github: yup.string().optional(),
+    linkedin: yup.string().optional(),
+    website: yup.string().optional(),
+  }).optional(),
   createdAt: yup
     .string()
     .optional(),

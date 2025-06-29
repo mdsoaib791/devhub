@@ -1,173 +1,41 @@
 {
   "users": [
     {
-      "id": "a378",
-      "email": "mdsoaib791@gmail.com",
-      "password": "Soaib123!@#",
-      "name": "soaib"
-    },
-    {
-      "id": "b6f8",
-      "email": "kumar@gmail.com",
-      "password": "Kumar@123",
-      "name": "Kumar Sanu"
-    },
-    {
-      "id": "b01e",
-      "email": "kumar123@gmail.com",
-      "password": "Kumar123!@#",
-      "name": "kumar"
-    },
-    {
-      "id": "e284",
-      "email": "zon@gmail.com",
-      "password": "Zon123!@#",
-      "name": "Zon"
-    },
-    {
-      "id": "bdd2",
-      "email": "devhub@gmail.com",
-      "password": "Devhub123!@#",
-      "name": "devhub"
-    },
-    {
-      "id": "5a46",
-      "email": "nadim@gmail.com",
-      "password": "Nadim123!@#",
-      "name": "Nadim Ansari"
+      "id": "e545",
+      "email": "admin@gmail.com",
+      "password": "Admin123!@#",
+      "name": "admin"
     }
   ],
   "developers": [
     {
-      "id": "fb61",
-      "name": "soaib",
-      "email": "soaib@gmail.com",
-      "bio": "React js developer at first bit digital technology",
+      "name": "Devhub",
+      "email": "admin@gmail.com",
+      "bio": "React js developer with good experiance in designing",
       "avatar": "",
       "skills": [
-        "react js",
-        "next js"
+        "React js",
+        "next js",
+        "react native"
       ],
       "social": {
-        "github": "",
-        "twitter": "",
-        "linkedin": "",
-        "website": ""
-      }
-    },
-    {
-      "id": "75b6",
-      "name": "soaib",
-      "email": "soaib@gmail.com",
-      "bio": "React js developer at first bit digital technology",
-      "avatar": "",
-      "skills": [
-        "react js",
-        "next js"
-      ],
-      "social": {
-        "github": "",
-        "twitter": "",
-        "linkedin": "",
-        "website": ""
-      }
-    },
-    {
-      "id": "e5ad",
-      "userId": "a378",
-      "name": "soaib",
-      "bio": "",
-      "avatar": "",
-      "skills": []
-    },
-    {
-      "id": "7498",
-      "userId": "b6f8",
-      "name": "Kumar Sanu",
-      "bio": "",
-      "avatar": "",
-      "skills": []
-    },
-    {
-      "id": "009d",
-      "userId": "b01e",
-      "name": "kumar",
-      "bio": "",
-      "avatar": "",
-      "skills": []
-    },
-    {
-      "id": "164b",
-      "userId": "e284",
-      "name": "Zon",
-      "bio": "",
-      "avatar": "",
-      "skills": []
-    },
-    {
-      "id": "1fa1",
-      "userId": "bdd2",
-      "name": "devhub",
-      "bio": "",
-      "avatar": "",
-      "skills": []
-    },
-    {
-      "id": "ba5b",
-      "userId": "5a46",
-      "name": "Nadim Ansari",
-      "bio": "",
-      "avatar": "",
-      "skills": []
+        "github": "https://nextjs.org/",
+        "twitter": "https://nextjs.org/",
+        "linkedin": "https://nextjs.org/",
+        "website": "https://nextjs.org/"
+      },
+      "id": "0a42"
     }
   ],
   "blogs": [
     {
-      "id": "32cc",
-      "title": "Updated",
-      "content": "Content",
-      "userId": "a378"
-    },
-    {
-      "id": "6bca",
-      "title": "Web Design",
-      "content": "We can do web design through figma nd photoshop ai",
-      "userId": "a378"
-    },
-    {
-      "id": "da2c",
-      "title": "Second blog",
+      "id": "bb1f",
+      "title": "First Blog",
       "content": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development. Its purpose is to permit a page layout to be designed, independently of the copy that will subsequently populate it, or to demonstrate various fonts of a typeface without meaningful text that could be distracting.",
-      "userId": "a378"
-    },
-    {
-      "id": "8a62",
-      "title": "Dev Blog First",
-      "content": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development. Its purpose is to permit a page layout to be designed, independently of the copy that will subsequently populate it, or to demonstrate various fonts of a typeface without meaningful text that could be distracting.\nnew",
-      "userId": "bdd2",
-      "updatedAt": "2025-06-29T06:46:03.747Z"
-    },
-    {
-      "id": "db16",
-      "title": "Third blog for testing",
-      "content": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development. Its purpose is to permit a page layout to be designed, independently of the copy that will subsequently populate it, or to demonstrate various fonts of a typeface without meaningful text that could be distracting",
-      "userId": "bdd2",
-      "createdAt": "2025-06-29T06:45:33.153Z",
-      "updatedAt": "2025-06-29T06:45:33.153Z"
+      "userId": "e545",
+      "createdAt": "2025-06-29T10:27:23.056Z",
+      "updatedAt": "2025-06-29T10:27:23.056Z"
     }
   ],
-  "comments": [
-    {
-      "id": "4ed0",
-      "blogId": "da2c",
-      "userId": "a378",
-      "content": "Good blog very hepfull. Thanks!"
-    },
-    {
-      "id": "5b6e",
-      "blogId": "da2c",
-      "userId": "a378",
-      "content": "new test comment"
-    }
-  ]
+  "comments": []
 }

@@ -3,6 +3,12 @@ export interface BlogModel {
   title: string;
   content: string;
   userId: string;
+  social?: {
+    twitter?: string;
+    github?: string;
+    linkedin?: string;
+    website?: string;
+  };
   createdAt?: string;
   updatedAt?: string;
 }

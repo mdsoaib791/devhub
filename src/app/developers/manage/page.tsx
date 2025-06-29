@@ -1,4 +1,4 @@
-import DeveloperAddUpdateForm from "@/components/developer/addupdate";
+import DeveloperAddUpdateForm from "@/components/developer/updatedeveloper";
 
 export default function Page() {
   return (

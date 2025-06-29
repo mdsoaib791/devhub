@@ -9,6 +9,7 @@ export interface DeveloperDto {
   id: number;
   userId: number; // <-- map to User
   name: string;
+  email: string;
   bio: string;
   avatar: string;
   skills: string[];

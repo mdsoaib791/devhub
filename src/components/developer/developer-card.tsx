@@ -21,7 +21,7 @@ interface DeveloperCardProps {
 }
 
 export default function DeveloperCard({ developer }: DeveloperCardProps) {
-  const { id, name, bio, avatar, skills, social = {} } = developer;
+  const { name, bio, avatar, skills, social = {} } = developer;
 
   // Get initials for avatar fallback
   const getInitials = (name: string) => {

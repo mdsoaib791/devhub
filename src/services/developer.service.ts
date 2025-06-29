@@ -1,4 +1,3 @@
-
 import { DeveloperModel } from "@/models/developer.model";
 import axios from "axios";
 import IDeveloperService from "./interfaces/ideveloper.service";
@@ -13,6 +12,11 @@ export default class DeveloperService implements IDeveloperService {
   async getById(id: string) {
     const res = await axios.get(`${API_BASE}/developers/${id}`);
     return res.data;
+  }
+  async getByUserId(userId: string) {
+    const res = await axios.get(`${API_BASE}/developers?userId=${userId}`);
+    // json-server returns an array, so return the first match or null
+    return res.data[0] || null;
   }
   async add(model: DeveloperModel) {
     const res = await axios.post(`${API_BASE}/developers`, model);

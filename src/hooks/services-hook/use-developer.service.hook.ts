@@ -26,6 +26,17 @@ const useGetDeveloperById = (id: string, enabled: boolean = true) => {
   });
 };
 
+const useGetDeveloperByUserId = (userId: string, enabled: boolean = true) => {
+  return useQuery({
+    queryKey: ['DeveloperService.getByUserId', userId],
+    queryFn: async () => {
+      if (!userId) return null;
+      return await developerService.getByUserId(userId);
+    },
+    enabled: enabled,
+  });
+};
+
 const useAddDeveloper = () => {
   const queryClient = useQueryClient();
 
@@ -86,7 +97,6 @@ const useDeleteDeveloperById = () => {
 };
 
 export {
-  useAddDeveloper, useDeleteDeveloperById, useGetAllDevelopers, useGetDeveloperById,
-  useUpdateDeveloper
+  useAddDeveloper, useDeleteDeveloperById, useGetAllDevelopers, useGetDeveloperById, useGetDeveloperByUserId, useUpdateDeveloper
 };
 

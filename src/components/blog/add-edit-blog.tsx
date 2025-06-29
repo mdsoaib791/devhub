@@ -5,7 +5,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader as DialogHeaderUI, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+
 import { useAddBlog, useUpdateBlog } from "@/hooks/services-hook/use-blog.service.hook";
+import { useToast } from "@/hooks/use-toast";
 import type { BlogModel } from "@/models/blog.model";
 import { blogValidationSchema } from "@/validation-schema/blog.validation.schema";
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -36,6 +38,7 @@ export default function AddEditBlog({
   const isEdit = !!blog;
   const addBlog = useAddBlog();
   const updateBlog = useUpdateBlog();
+  const { toast } = useToast();
 
   const [internalOpen, setInternalOpen] = useState(false);
   const open = controlledOpen !== undefined ? controlledOpen : internalOpen;
@@ -81,7 +84,23 @@ export default function AddEditBlog({
             updatedAt: now,
           },
         },
-        { onSuccess: handleSuccess }
+        {
+          onSuccess: () => {
+            toast({
+              title: "Blog updated!",
+              description: "Your blog was updated successfully.",
+              variant: "success",
+            });
+            handleSuccess();
+          },
+          onError: (error: any) => {
+            toast({
+              title: "Update failed",
+              description: error?.message || "Something went wrong.",
+              variant: "destructive",
+            });
+          },
+        }
       );
     } else {
       addBlog.mutate(
@@ -91,7 +110,23 @@ export default function AddEditBlog({
           createdAt: now,
           updatedAt: now,
         },
-        { onSuccess: handleSuccess }
+        {
+          onSuccess: () => {
+            toast({
+              title: "Blog added!",
+              description: "Your blog was added successfully.",
+              variant: "success",
+            });
+            handleSuccess();
+          },
+          onError: (error: any) => {
+            toast({
+              title: "Add failed",
+              description: error?.message || "Something went wrong.",
+              variant: "destructive",
+            });
+          },
+        }
       );
     }
   };
@@ -137,6 +172,8 @@ export default function AddEditBlog({
                     </FormItem>
                   )}
                 />
+                {/* Hidden userId field */}
+                <input type="hidden" {...form.register("userId")} />
                 <div className="flex gap-2">
                   <Button type="submit" disabled={isSubmitting}>
                     {isEdit ? "Save" : "Add"}

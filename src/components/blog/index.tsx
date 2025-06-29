@@ -5,7 +5,6 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
-import { Separator } from "@/components/ui/separator";
 import { useDeleteBlog, useGetAllBlogs } from "@/hooks/services-hook/use-blog.service.hook";
 import type { BlogModel } from "@/models/blog.model";
 import { Calendar, Loader2, MessageCircle, Trash, User } from "lucide-react";
@@ -110,7 +109,8 @@ export default function BlogList({ userId }: BlogListProps) {
             </Card>
           ) : (
             paginatedBlogs.map((blog: BlogModel) => (
-              <Card key={blog.id} className="md:p-0 p-0 shadow-sm hover:shadow-md transition-shadow duration-200 border-accent border">
+              <Card key={blog.id} className="md:p-0 p-0 shadow-sm hover:shadow-md transition-shadow duration-200 bg-gradient-to-br from-white to-gray-50/50 dark:from-gray-900 dark:to-gray-800/50">
+
                 <CardHeader className="pb-4 ">
                   <div className="flex items-start justify-between">
                     <div className="flex items-center gap-3">
@@ -160,7 +160,7 @@ export default function BlogList({ userId }: BlogListProps) {
                 <CardContent className="pb-4">
                   <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">{blog.content}</p>
                 </CardContent>
-                <Separator />
+
               </Card>
             ))
           )}

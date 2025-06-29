@@ -34,11 +34,13 @@ export default function ModernHeader() {
       <div className="container mx-auto">
         <div className="flex h-16 items-center justify-between px-6">
           {/* Logo/Brand */}
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-3">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-bold text-sm">
               D
             </div>
-            <span className="font-bold text-xl tracking-tight">DEVHUB</span>
+            <Link href={'/'} className="font-bold text-xl tracking-tight">DEVHUB</Link>
+            <Link href={'/developers'} className="font-medium">Developer</Link>
+            <Link href={'/blog'} className="font-medium">Blogs</Link>
           </div>
 
           {/* Right side actions */}

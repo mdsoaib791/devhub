@@ -26,6 +26,7 @@ export async function POST(req: NextRequest) {
     await axios.post(`${API_BASE}/developers`, {
       userId: user.id,
       name: user.name,
+      email: user.email,
       bio: "",
       avatar: "",
       skills: [],
