@@ -63,13 +63,13 @@ export default function AddEditBlog({
   const handleSuccess = () => {
     reset();
     onOpenChange(false);
-    onSuccess && onSuccess();
+    onSuccess?.();
   };
 
   const handleCancel = () => {
     reset();
     onOpenChange(false);
-    onCancel && onCancel();
+    onCancel?.();
   };
 
   const onSubmit = (data: BlogModel) => {
@@ -93,10 +93,10 @@ export default function AddEditBlog({
             });
             handleSuccess();
           },
-          onError: (error: any) => {
+          onError: () => {
             toast({
               title: "Update failed",
-              description: error?.message || "Something went wrong.",
+              description: "Something went wrong.",
               variant: "destructive",
             });
           },
@@ -119,10 +119,10 @@ export default function AddEditBlog({
             });
             handleSuccess();
           },
-          onError: (error: any) => {
+          onError: () => {
             toast({
               title: "Add failed",
-              description: error?.message || "Something went wrong.",
+              description: "Something went wrong.",
               variant: "destructive",
             });
           },

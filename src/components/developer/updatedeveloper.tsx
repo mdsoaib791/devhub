@@ -97,10 +97,10 @@ export default function DeveloperUpdateForm({ onSuccess }: Props) {
           });
           if (onSuccess) onSuccess();
         },
-        onError: (error: any) => {
+        onError: () => {
           toast({
             title: "Update failed",
-            description: error?.message || "Something went wrong.",
+            description: "Something went wrong.",
             variant: "destructive",
           });
         },

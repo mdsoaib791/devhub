@@ -5,6 +5,9 @@ import CredentialsProvider from 'next-auth/providers/credentials';
 
 const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:4000';
 
+type ExtendedUser = User & { id: string };
+type ExtendedToken = JWT & { id?: string };
+
 export const authOptions: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -16,15 +19,13 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials) return null;
 
-        // Query the same json-server as /api/register
-        const res = await axios.get(
-          `${API_BASE}/users?email=${credentials.email}`
-        );
+        const res = await axios.get(`${API_BASE}/users?email=${credentials.email}`);
         const user = res.data[0];
+
         if (user && user.password === credentials.password) {
-          // Must return an object with at least an id
-          return { id: user.id, email: user.email, name: user.name } as User;
+          return { id: user.id, email: user.email, name: user.name } as ExtendedUser;
         }
+
         return null;
       },
     }),
@@ -32,19 +33,25 @@ export const authOptions: NextAuthOptions = {
   session: { strategy: 'jwt' },
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: User }) {
+      const extendedUser = user as ExtendedUser;
+
       if (user) {
-        token.id = (user as any).id;
-        token.email = user.email;
-        token.name = user.name;
+        token.id = extendedUser.id;
+        token.email = extendedUser.email;
+        token.name = extendedUser.name;
       }
+
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {
+      const extendedToken = token as ExtendedToken;
+
       session.user = {
-        id: (token as any).id,
-        email: token.email,
-        name: token.name,
+        id: extendedToken.id ?? '',
+        email: extendedToken.email ?? '',
+        name: extendedToken.name ?? '',
       };
+
       return session;
     },
   },

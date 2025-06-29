@@ -1,4 +1,10 @@
 import BlogList from "@/components/blog";
+import config from "@/config";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: `Blog - ${config.appName}`,
+};
 
 export default function Page() {
   return (
