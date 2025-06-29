@@ -3,6 +3,7 @@ import { useGetDeveloperById } from "@/hooks/services-hook/use-developer.service
 import { useSession } from "next-auth/react";
 import BlogList from "../blog";
 import DeveloperDetailsCard from "./developer-details-card";
+import Loader from "../common/loader";
 
 interface DeveloperDetailsProps {
   id: string
@@ -11,7 +12,7 @@ function DeveloperDetailsWrapper({ id }: DeveloperDetailsProps) {
   const { data: developer, isLoading, error } = useGetDeveloperById(id);
   const { data: session } = useSession();
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <div><Loader /></div>;
   if (error) return <div>Error loading developer details.</div>;
 
   return (

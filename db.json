@@ -1,42 +1,33 @@
 {
   "users": [
     {
-      "id": "e545",
-      "email": "admin@gmail.com",
-      "password": "Admin123!@#",
-      "name": "admin"
-    },
-    {
       "id": "08da",
       "email": "mdsoaib@gmail.com",
       "password": "Soaib123!@#",
       "name": "Md Soaib Ansari"
+    },
+    {
+      "id": "2e40",
+      "email": "haider@gmail.com",
+      "password": "Haider123!@#",
+      "name": "Haider"
     }
   ],
   "developers": [
-    {
-      "name": "Devhub",
-      "email": "admin@gmail.com",
-      "bio": "React js developer with good experiance in designing",
-      "avatar": "",
-      "skills": [
-        "React js",
-        "next js",
-        "react native"
-      ],
-      "social": {
-        "github": "https://nextjs.org/",
-        "twitter": "https://nextjs.org/",
-        "linkedin": "https://nextjs.org/",
-        "website": "https://nextjs.org/"
-      },
-      "id": "0a42"
-    },
     {
       "id": "350d",
       "userId": "08da",
       "name": "Md Soaib Ansari",
       "email": "mdsoaib@gmail.com",
+      "bio": "",
+      "avatar": "",
+      "skills": []
+    },
+    {
+      "id": "769d",
+      "userId": "2e40",
+      "name": "Haider",
+      "email": "haider@gmail.com",
       "bio": "",
       "avatar": "",
       "skills": []

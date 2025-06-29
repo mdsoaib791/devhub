@@ -11,19 +11,21 @@ import { useToast } from "@/hooks/use-toast";
 import { DeveloperModel } from "@/models/developer.model";
 import developerValidationSchema from '@/validation-schema/developer.validation.schema';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { BsTwitterX } from "react-icons/bs";
 import { CgWebsite } from "react-icons/cg";
 import { FaGithub, FaLinkedinIn } from 'react-icons/fa6';
+import Loader from "../common/loader";
 
 type Props = {
-  id: string;
   onSuccess?: () => void;
 };
 
-export default function DeveloperUpdateForm({ id, onSuccess }: Props) {
-  const { data: developer, isLoading } = useGetDeveloperByUserId(id);
+export default function DeveloperUpdateForm({ onSuccess }: Props) {
+  const { data: session } = useSession();
+  const { data: developer, isLoading } = useGetDeveloperByUserId(session?.user?.id || '');
   const { mutate: updateDeveloper, isPending: isUpdating } = useUpdateDeveloper();
   const { toast } = useToast();
   console.log("developer", developer)
@@ -109,7 +111,7 @@ export default function DeveloperUpdateForm({ id, onSuccess }: Props) {
   const social = form.watch('social') || {};
 
   if (isLoading) {
-    return <div className="text-center py-12">Loading...</div>;
+    return <Loader />;
   }
 
   return (

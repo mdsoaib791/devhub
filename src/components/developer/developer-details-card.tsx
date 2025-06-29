@@ -27,7 +27,7 @@ interface DeveloperDetailsCardProps {
 }
 
 export default function DeveloperDetailsCard({ developer }: DeveloperDetailsCardProps) {
-  const { id, name, bio, avatar, skills, social = {} } = developer;
+  const { userId, id, name, bio, avatar, skills, social = {} } = developer;
   const { data: session } = useSession();
   const [showUpdate, setShowUpdate] = useState(false);
   const [isLoading, setLoading] = useState(false);
@@ -97,31 +97,29 @@ export default function DeveloperDetailsCard({ developer }: DeveloperDetailsCard
               {name}
             </h3>
             <div className="flex items-center flex-wrap gap-3">
-              {session?.user && (
-                <AddEditBlog userId={session.user.id} triggerLabel="Add Blog" onSuccess={refreshBlogs} />
-              )}
-              {session?.user && (
-                <Dialog open={showUpdate} onOpenChange={setShowUpdate}>
-                  <DialogTrigger asChild>
-                    <Button onClick={() => setShowUpdate(true)}>Edit Profile</Button>
-                  </DialogTrigger>
-                  <DialogContent className="max-w-lg w-full">
-                    <DialogHeader>
-                      <DialogTitle>Edit Profile</DialogTitle>
-                    </DialogHeader>
-                    <DeveloperUpdateForm
-                      id={session.user.id}
-                      onSuccess={() => {
-                        setShowUpdate(false);
-                        setLoading(true);
-                        setTimeout(() => {
-                          window.location.reload();
-                          setLoading(false);
-                        }, 500);
-                      }}
-                    />
-                  </DialogContent>
-                </Dialog>
+              {session?.user === userId && (
+                <>                <AddEditBlog userId={session.user.id} triggerLabel="Add Blog" onSuccess={refreshBlogs} />
+                  <Dialog open={showUpdate} onOpenChange={setShowUpdate}>
+                    <DialogTrigger asChild>
+                      <Button onClick={() => setShowUpdate(true)}>Edit Profile</Button>
+                    </DialogTrigger>
+                    <DialogContent className="max-w-lg w-full">
+                      <DialogHeader>
+                        <DialogTitle>Edit Profile</DialogTitle>
+                      </DialogHeader>
+                      <DeveloperUpdateForm
+                        onSuccess={() => {
+                          setShowUpdate(false);
+                          setLoading(true);
+                          setTimeout(() => {
+                            window.location.reload();
+                            setLoading(false);
+                          }, 500);
+                        }}
+                      />
+                    </DialogContent>
+                  </Dialog>
+                </>
               )}
             </div>
           </div>
