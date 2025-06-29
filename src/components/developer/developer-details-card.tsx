@@ -97,7 +97,7 @@ export default function DeveloperDetailsCard({ developer }: DeveloperDetailsCard
               {name}
             </h3>
             <div className="flex items-center flex-wrap gap-3">
-              {session?.user === userId && (
+              {session?.user.id === userId && (
                 <>                <AddEditBlog userId={session.user.id} triggerLabel="Add Blog" onSuccess={refreshBlogs} />
                   <Dialog open={showUpdate} onOpenChange={setShowUpdate}>
                     <DialogTrigger asChild>
