@@ -3,13 +3,17 @@
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
 import { useDeleteBlog, useGetAllBlogs } from "@/hooks/services-hook/use-blog.service.hook";
 import type { BlogModel } from "@/models/blog.model";
-import { Calendar, Loader2, MessageCircle, Trash, User } from "lucide-react";
+import { Calendar, Filter, Loader2, MessageCircle, Search, Trash, User, X } from "lucide-react";
 import moment from "moment";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import ConfirmationDialog from "../common/confirmation-dialog";
@@ -27,13 +31,36 @@ export default function BlogList({ userId }: BlogListProps) {
   const [page, setPage] = useState(1);
   const [editBlog, setEditBlog] = useState<BlogModel | null>(null);
   const [deleteBlog, setDeleteBlog] = useState<BlogModel | null>(null);
+  const [search, setSearch] = useState("");
+  const [selectedAuthor, setSelectedAuthor] = useState("all");
   const deleteBlogMutation = useDeleteBlog();
 
-  // Filter blogs by userId if provided
-  const filteredBlogs = useMemo(() => {
+  // Get all unique authors for the select box
+  const allAuthors = useMemo(() => {
     if (!blogs) return [];
-    return userId ? blogs.filter((b: BlogModel) => b.userId === userId) : blogs;
-  }, [blogs, userId]);
+    const authorsSet = new Set<string>();
+    blogs.forEach((b: BlogModel) => {
+      if (b.userId) authorsSet.add(b.userId);
+    });
+    return Array.from(authorsSet);
+  }, [blogs]);
+
+  // Filter blogs by userId, search, and author
+  const filteredBlogs = useMemo(() => {
+    let filtered = blogs || [];
+    if (userId) {
+      filtered = filtered.filter((b: BlogModel) => b.userId === userId);
+    }
+    if (search) {
+      filtered = filtered.filter((b: BlogModel) =>
+        b.title.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+    if (selectedAuthor !== "all") {
+      filtered = filtered.filter((b: BlogModel) => b.userId === selectedAuthor);
+    }
+    return filtered;
+  }, [blogs, userId, search, selectedAuthor]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredBlogs.length / ITEMS_PER_PAGE);
@@ -41,6 +68,13 @@ export default function BlogList({ userId }: BlogListProps) {
     (page - 1) * ITEMS_PER_PAGE,
     page * ITEMS_PER_PAGE
   );
+
+  const clearFilters = () => {
+    setSearch("");
+    setSelectedAuthor("all");
+  };
+
+  const hasActiveFilters = search !== "" || selectedAuthor !== "all";
 
   if (isLoading) {
     return (
@@ -52,6 +86,84 @@ export default function BlogList({ userId }: BlogListProps) {
 
   return (
     <>
+      {/* Filter Section */}
+      <Card className="mb-8 shadow-lg border-0 bg-card/50 backdrop-blur-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="flex items-center gap-2 text-lg">
+            <Filter className="h-5 w-5" />
+            Filter Blogs
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            {/* Search Input */}
+            <div className="relative">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+              <Input
+                placeholder="Search blogs by title..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className="pl-10 h-11 bg-background/50"
+              />
+            </div>
+            {/* Author Select */}
+            <div className="lg:col-span-1">
+              <Select value={selectedAuthor} onValueChange={setSelectedAuthor}>
+                <SelectTrigger className="h-11 bg-background/50">
+                  <SelectValue placeholder="Filter by author" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Authors</SelectItem>
+                  {allAuthors.map((author) => (
+                    <SelectItem key={author} value={author}>
+                      {author}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+            {/* Clear Filters Button */}
+            <div className="lg:col-span-1">
+              {hasActiveFilters && (
+                <Button
+                  variant="outline"
+                  onClick={clearFilters}
+                  className="w-full h-11 bg-background/50 hover:bg-destructive hover:text-destructive-foreground transition-colors"
+                >
+                  <X className="h-4 w-4 mr-2" />
+                  Clear Filters
+                </Button>
+              )}
+            </div>
+          </div>
+          {/* Active Filters Display */}
+          {hasActiveFilters && (
+            <>
+              <Separator className="my-4" />
+              <div className="flex flex-wrap gap-2">
+                <span className="text-sm text-muted-foreground">Active filters:</span>
+                {search && (
+                  <Badge variant="secondary" className="gap-1">
+                    Search: {search}
+                    <X className="h-3 w-3 cursor-pointer hover:text-destructive" onClick={() => setSearch("")} />
+                  </Badge>
+                )}
+                {selectedAuthor !== "all" && (
+                  <Badge variant="secondary" className="gap-1">
+                    Author: {selectedAuthor}
+                    <X
+                      className="h-3 w-3 cursor-pointer hover:text-destructive"
+                      onClick={() => setSelectedAuthor("all")}
+                    />
+                  </Badge>
+                )}
+              </div>
+            </>
+          )}
+        </CardContent>
+      </Card>
+
+      {/* Edit Blog Dialog */}
       <Dialog open={!!editBlog} onOpenChange={open => !open && setEditBlog(null)}>
         <DialogContent className="max-w-lg w-full">
           <DialogHeader>
@@ -92,7 +204,7 @@ export default function BlogList({ userId }: BlogListProps) {
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {paginatedBlogs.length === 0 ? (
-            <Card className="text-center py-12">
+            <Card className="col-span-4 text-center py-12">
               <CardContent>
                 <div className="flex flex-col items-center gap-4">
                   <div className="h-12 w-12 rounded-full bg-muted flex items-center justify-center">
@@ -121,12 +233,20 @@ export default function BlogList({ userId }: BlogListProps) {
                         </AvatarFallback>
                       </Avatar>
                       <div>
-                        <h2 className="text-xl font-semibold leading-tight">{blog.title}</h2>
+                        {/* Blog Title as Link */}
+                        <h2 className="text-xl font-semibold leading-tight">
+                          <Link
+                            href={`/blog/${blog.id}`}
+                            className="hover:underline hover:text-primary transition-colors"
+                          >
+                            {blog.title}
+                          </Link>
+                        </h2>
                         <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
                           <Calendar className="h-3 w-3" />
                           {blog.createdAt && moment(blog.createdAt).format("MMM D, YYYY")}
                           {session?.user.id === blog.userId && (
-                            <Badge variant="secondary" className="ml-2">
+                            <Badge variant="blue" className="ml-2">
                               Your Post
                             </Badge>
                           )}

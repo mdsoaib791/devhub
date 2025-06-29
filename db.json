@@ -5,6 +5,12 @@
       "email": "admin@gmail.com",
       "password": "Admin123!@#",
       "name": "admin"
+    },
+    {
+      "id": "08da",
+      "email": "mdsoaib@gmail.com",
+      "password": "Soaib123!@#",
+      "name": "Md Soaib Ansari"
     }
   ],
   "developers": [
@@ -25,6 +31,15 @@
         "website": "https://nextjs.org/"
       },
       "id": "0a42"
+    },
+    {
+      "id": "350d",
+      "userId": "08da",
+      "name": "Md Soaib Ansari",
+      "email": "mdsoaib@gmail.com",
+      "bio": "",
+      "avatar": "",
+      "skills": []
     }
   ],
   "blogs": [
@@ -37,5 +52,14 @@
       "updatedAt": "2025-06-29T10:27:23.056Z"
     }
   ],
-  "comments": []
+  "comments": [
+    {
+      "id": "4350",
+      "blogId": "bb1f",
+      "userId": "e545",
+      "author": "admin",
+      "content": "Fisrt comment for test",
+      "createdAt": "2025-06-29T11:19:43.309Z"
+    }
+  ]
 }
