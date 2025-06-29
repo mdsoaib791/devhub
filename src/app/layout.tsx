@@ -35,7 +35,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <NextTopLoader color="#67be8c" showSpinner={false} />
+        <NextTopLoader color="#171717" showSpinner={false} />
         <ReactQueryProvider>
           <AuthProvider>
             <ThemeProvider defaultTheme="light" storageKey="devhuv-theme">
