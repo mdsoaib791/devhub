@@ -1,15 +1,15 @@
 "use client"
 
-import type React from "react"
-
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Eye, EyeOff, Lock, Mail, User } from "lucide-react"
+import { signIn } from "next-auth/react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import type React from "react"
 import { useState } from "react"
 
 export default function AuthForm() {
@@ -24,44 +24,52 @@ export default function AuthForm() {
     setForm({ ...form, [e.target.name]: e.target.value })
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Registration: call your backend to create user, then sign in
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
-    const url = isRegister ? "/api/register" : "/api/login"
-    const res = await fetch(url, {
+    setError("")
+    // Call your /api/register endpoint to create the user
+    const res = await fetch("/api/register", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(form),
     })
-
-    type ApiResponse = {
-      error?: string
-      token?: string
-      user?: unknown
-      [key: string]: unknown
-    }
-    let data: ApiResponse = {}
-    try {
-      data = await res.json()
-    } catch {
-      setIsLoading(false)
-      return
-    }
-
+    const data = await res.json()
     setIsLoading(false)
-
     if (!res.ok) {
-      setError(data.error || "Something went wrong")
+      setError(data.error || "Registration failed")
       return
     }
+    // After successful registration, sign in with NextAuth
+    const signInRes = await signIn("credentials", {
+      email: form.email,
+      password: form.password,
+      redirect: false,
+    })
+    if (signInRes?.ok) {
+      router.push("/developers")
+    } else {
+      setError("Sign in after registration failed")
+    }
+  }
 
+  // Login: use NextAuth credentials provider
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsLoading(true)
     setError("")
-
-    // Store JWT in localStorage (or cookie)
-    localStorage.setItem("token", data.token ?? "")
-    // Optionally, store user info
-    localStorage.setItem("user", JSON.stringify(data.user))
-    router.push("/developers");
+    const res = await signIn("credentials", {
+      email: form.email,
+      password: form.password,
+      redirect: false,
+    })
+    setIsLoading(false)
+    if (res?.ok) {
+      router.push("/developers")
+    } else {
+      setError("Invalid email or password")
+    }
   }
 
   return (
@@ -73,12 +81,12 @@ export default function AuthForm() {
           <p className="text-slate-600">Sign in to your account or create a new one</p>
         </div>
 
-        <Tabs defaultValue="login" className="w-full">
+        <Tabs defaultValue="login" className="w-full" onValueChange={v => setIsRegister(v === "register")}>
           <TabsList className="grid w-full grid-cols-2 mb-6">
             <TabsTrigger value="login" className="text-sm font-medium">
               Sign In
             </TabsTrigger>
-            <TabsTrigger value="register" className="text-sm font-medium" onClick={() => setIsRegister(true)}>
+            <TabsTrigger value="register" className="text-sm font-medium">
               Sign Up
             </TabsTrigger>
           </TabsList>
@@ -91,7 +99,7 @@ export default function AuthForm() {
                   Enter your credentials to access your account
                 </CardDescription>
               </CardHeader>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleLogin}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="login-email" className="text-sm font-medium">
@@ -169,7 +177,7 @@ export default function AuthForm() {
                   Enter your information to create a new account
                 </CardDescription>
               </CardHeader>
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleRegister}>
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
                     <Label htmlFor="register-name" className="text-sm font-medium">

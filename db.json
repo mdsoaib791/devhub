@@ -5,24 +5,39 @@
       "email": "mdsoaib791@gmail.com",
       "password": "Soaib123!@#",
       "name": "soaib"
+    },
+    {
+      "id": "b6f8",
+      "email": "kumar@gmail.com",
+      "password": "Kumar@123",
+      "name": "Kumar Sanu"
+    },
+    {
+      "id": "b01e",
+      "email": "kumar123@gmail.com",
+      "password": "Kumar123!@#",
+      "name": "kumar"
+    },
+    {
+      "id": "e284",
+      "email": "zon@gmail.com",
+      "password": "Zon123!@#",
+      "name": "Zon"
+    },
+    {
+      "id": "bdd2",
+      "email": "devhub@gmail.com",
+      "password": "Devhub123!@#",
+      "name": "devhub"
+    },
+    {
+      "id": "5a46",
+      "email": "nadim@gmail.com",
+      "password": "Nadim123!@#",
+      "name": "Nadim Ansari"
     }
   ],
   "developers": [
-    {
-      "id": "1",
-      "name": "Jane Doe",
-      "email": "jane@example.com",
-      "bio": "Full Stack Developer",
-      "avatar": "https://i.pravatar.cc/100?img=1",
-      "skills": [
-        "React",
-        "Node.js"
-      ],
-      "social": {
-        "github": "https://github.com/janedoe",
-        "twitter": "https://twitter.com/janedoe"
-      }
-    },
     {
       "id": "fb61",
       "name": "soaib",
@@ -64,18 +79,95 @@
       "bio": "",
       "avatar": "",
       "skills": []
+    },
+    {
+      "id": "7498",
+      "userId": "b6f8",
+      "name": "Kumar Sanu",
+      "bio": "",
+      "avatar": "",
+      "skills": []
+    },
+    {
+      "id": "009d",
+      "userId": "b01e",
+      "name": "kumar",
+      "bio": "",
+      "avatar": "",
+      "skills": []
+    },
+    {
+      "id": "164b",
+      "userId": "e284",
+      "name": "Zon",
+      "bio": "",
+      "avatar": "",
+      "skills": []
+    },
+    {
+      "id": "1fa1",
+      "userId": "bdd2",
+      "name": "devhub",
+      "bio": "",
+      "avatar": "",
+      "skills": []
+    },
+    {
+      "id": "ba5b",
+      "userId": "5a46",
+      "name": "Nadim Ansari",
+      "bio": "",
+      "avatar": "",
+      "skills": []
     }
   ],
   "blogs": [
     {
-      "id": "1",
-      "developer_id": 1,
-      "title": "My First Blog",
-      "excerpt": "This is my first blog post.",
-      "content": "Hello, world!",
-      "created_at": "2024-06-28T12:00:00Z",
-      "updated_at": "2024-06-28T12:00:00Z",
-      "is_public": true
+      "id": "32cc",
+      "title": "Updated",
+      "content": "Content",
+      "userId": "a378"
+    },
+    {
+      "id": "6bca",
+      "title": "Web Design",
+      "content": "We can do web design through figma nd photoshop ai",
+      "userId": "a378"
+    },
+    {
+      "id": "da2c",
+      "title": "Second blog",
+      "content": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development. Its purpose is to permit a page layout to be designed, independently of the copy that will subsequently populate it, or to demonstrate various fonts of a typeface without meaningful text that could be distracting.",
+      "userId": "a378"
+    },
+    {
+      "id": "8a62",
+      "title": "Dev Blog First",
+      "content": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development. Its purpose is to permit a page layout to be designed, independently of the copy that will subsequently populate it, or to demonstrate various fonts of a typeface without meaningful text that could be distracting.\nnew",
+      "userId": "bdd2",
+      "updatedAt": "2025-06-29T06:46:03.747Z"
+    },
+    {
+      "id": "db16",
+      "title": "Third blog for testing",
+      "content": "Lorem ipsum is a dummy or placeholder text commonly used in graphic design, publishing, and web development. Its purpose is to permit a page layout to be designed, independently of the copy that will subsequently populate it, or to demonstrate various fonts of a typeface without meaningful text that could be distracting",
+      "userId": "bdd2",
+      "createdAt": "2025-06-29T06:45:33.153Z",
+      "updatedAt": "2025-06-29T06:45:33.153Z"
+    }
+  ],
+  "comments": [
+    {
+      "id": "4ed0",
+      "blogId": "da2c",
+      "userId": "a378",
+      "content": "Good blog very hepfull. Thanks!"
+    },
+    {
+      "id": "5b6e",
+      "blogId": "da2c",
+      "userId": "a378",
+      "content": "new test comment"
     }
   ]
 }

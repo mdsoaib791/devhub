@@ -1,7 +1,10 @@
 export interface BlogModel {
-  developer_id: string;
+  id?: string;
   title: string;
-  excerpt: string;
   content: string;
-  is_public: boolean;
+  userId: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
+
+

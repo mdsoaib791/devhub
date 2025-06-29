@@ -1,4 +1,3 @@
-'use client'
 import DevelopersWrapper from "@/components/developer"
 
 export default function Page() {

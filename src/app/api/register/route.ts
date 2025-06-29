@@ -8,6 +8,10 @@ export async function POST(req: NextRequest) {
   try {
     const { email, password, name } = await req.json();
 
+    if (!email || !password || !name) {
+      return NextResponse.json({ error: "All fields are required" }, { status: 400 });
+    }
+
     // Check if user already exists
     const res = await axios.get(`${API_BASE}/users?email=${email}`);
     if (res.data.length > 0) {

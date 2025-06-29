@@ -141,7 +141,7 @@ export default function DeveloperCard({ developer }: DeveloperCardProps) {
           asChild
           className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-medium py-2 px-4 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl"
         >
-          <Link href={`/developers/details/${id }`}>View Profile</Link>
+          <Link href={`/developers/details/${developer.id}`}>View Profile</Link>
         </Button>
       </CardFooter>
     </Card>
