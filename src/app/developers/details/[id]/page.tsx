@@ -1,11 +1,25 @@
-import DeveloperDetailsWrapper from "@/components/developer/developer-details";
-import config from "@/config";
-import { Metadata } from "next";
+import DeveloperDetailsWrapper from "@/components/developer/developer-details"
 
-export const metadata: Metadata = {
-  title: `Developer Details - ${config.appName}`,
-};
+interface PageProps {
+  params: Promise<{
+    id: string
+  }>
 
-export default function Page({ params }: { params: { id: string } }) {
-  return <DeveloperDetailsWrapper id={params.id} />;
+}
+
+export default async function BlogPage({ params }: PageProps) {
+  const { id } = await params
+
+  return (
+    <DeveloperDetailsWrapper id={id} />
+  )
+}
+
+export async function generateMetadata({ params }: PageProps) {
+  const { id } = await params
+
+  return {
+    title: `Blog Post ${id}`,
+    description: `Read blog post ${id}`,
+  }
 }

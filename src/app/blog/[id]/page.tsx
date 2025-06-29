@@ -6,12 +6,15 @@ export const metadata: Metadata = {
   title: `Blog Details - ${config.appName}`,
 };
 
-type PageProps = {
-  params: {
-    id: string;
-  };
-};
 
-export default function Page({ params }: PageProps) {
-  return <BlogDetails blogId={params.id} />;
+interface PageProps {
+  params: {
+    id: string
+  }
+}
+
+export default function BlogPage({ params }: PageProps) {
+  const { id } = params
+
+  return <BlogDetails blogId={id} />;
 }
