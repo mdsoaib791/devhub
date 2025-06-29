@@ -10,13 +10,14 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator";
 import { useDeleteBlog, useGetAllBlogs } from "@/hooks/services-hook/use-blog.service.hook";
 import type { BlogModel } from "@/models/blog.model";
-import { Calendar, Filter, Loader2, MessageCircle, Search, Trash, User, X } from "lucide-react";
+import { Calendar, Filter, MessageCircle, Search, Trash, User, X } from "lucide-react";
 import moment from "moment";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import { FaEdit } from "react-icons/fa";
 import ConfirmationDialog from "../common/confirmation-dialog";
+import Loader from "../common/loader";
 import AddEditBlog from "./add-edit-blog";
 
 interface BlogListProps {
@@ -78,9 +79,7 @@ export default function BlogList({ userId }: BlogListProps) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center min-h-[200px]">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
+      <Loader />
     );
   }
 
