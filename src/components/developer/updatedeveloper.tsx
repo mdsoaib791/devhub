@@ -26,7 +26,7 @@ export default function DeveloperUpdateForm({ id, onSuccess }: Props) {
   const { data: developer, isLoading } = useGetDeveloperByUserId(id);
   const { mutate: updateDeveloper, isPending: isUpdating } = useUpdateDeveloper();
   const { toast } = useToast();
-
+  console.log("developer", developer)
   // For skills input as comma separated string
   const [skillsInput, setSkillsInput] = useState('');
 
