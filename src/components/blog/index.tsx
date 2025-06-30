@@ -71,7 +71,6 @@ export default function BlogList({ userId }: BlogListProps) {
 
   const clearFilters = () => {
     setSearch("");
-    setSelectedAuthor("all");
   };
 
   const hasActiveFilters = search !== "" && search !== "all";
