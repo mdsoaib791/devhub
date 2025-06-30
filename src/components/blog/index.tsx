@@ -32,7 +32,7 @@ export default function BlogList({ userId }: BlogListProps) {
   const [editBlog, setEditBlog] = useState<BlogModel | null>(null);
   const [deleteBlog, setDeleteBlog] = useState<BlogModel | null>(null);
   const [search, setSearch] = useState("");
-  const [selectedAuthor, setSelectedAuthor] = useState("all");
+//  const [selectedAuthor, setSelectedAuthor] = useState("all");
   const deleteBlogMutation = useDeleteBlog();
 
 
@@ -50,7 +50,7 @@ export default function BlogList({ userId }: BlogListProps) {
     }
 
     return filtered;
-  }, [blogs, userId, search, selectedAuthor]);
+  }, [blogs, userId, search]);
 
   // Pagination logic
   const totalPages = Math.ceil(filteredBlogs.length / ITEMS_PER_PAGE);
@@ -61,10 +61,9 @@ export default function BlogList({ userId }: BlogListProps) {
 
   const clearFilters = () => {
     setSearch("");
-    setSelectedAuthor("all");
   };
 
-  const hasActiveFilters = search !== "" || selectedAuthor !== "all";
+  const hasActiveFilters = search !== "" && search !== "all";
 
   if (isLoading) {
     return (
