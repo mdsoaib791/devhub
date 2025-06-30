@@ -1,8 +1,11 @@
-import BlogDetails from "@/components/blog/blog-details";
-import type { FC } from "react";
+import BlogDetails from '@/components/blog/blog-details';
+import { use } from 'react';
 
-const BlogPage: FC<{ params: { id: string } }> = ({ params }) => {
-  return <BlogDetails blogId={params.id} />;
-};
+type tParams = Promise<{ slug: string[] }>;
 
-export default BlogPage;
+export default function BlogDetailsPage({ params }: { params: tParams }) {
+  const { slug }: { slug: string[] } = use(params);
+  const id = slug[1];
+
+  return <BlogDetails blogId={id} />;
+}
