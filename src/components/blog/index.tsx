@@ -74,7 +74,7 @@ export default function BlogList({ userId }: BlogListProps) {
     setSelectedAuthor("all");
   };
 
-  const hasActiveFilters = search !== "" || !== "all";
+  const hasActiveFilters = search !== "" && search !== "all";
 
   if (isLoading) {
     return (
