@@ -35,15 +35,7 @@ export default function BlogList({ userId }: BlogListProps) {
   const [selectedAuthor, setSelectedAuthor] = useState("all");
   const deleteBlogMutation = useDeleteBlog();
 
-  // Get all unique authors for the select box
-  const allAuthors = useMemo(() => {
-    if (!blogs) return [];
-    const authorsSet = new Set<string>();
-    blogs.forEach((b: BlogModel) => {
-      if (b.userId) authorsSet.add(b.userId);
-    });
-    return Array.from(authorsSet);
-  }, [blogs]);
+
 
   // Filter blogs by userId, search, and author
   const filteredBlogs = useMemo(() => {
@@ -56,9 +48,7 @@ export default function BlogList({ userId }: BlogListProps) {
         b.title.toLowerCase().includes(search.toLowerCase())
       );
     }
-    // if (selectedAuthor !== "all") {
-    //   filtered = filtered.filter((b: BlogModel) => b.userId === selectedAuthor);
-    // }
+
     return filtered;
   }, [blogs, userId, search, selectedAuthor]);
 
@@ -104,23 +94,7 @@ export default function BlogList({ userId }: BlogListProps) {
                 className="pl-10 h-11 bg-background/50"
               />
             </div>
-            {/* Author Select */}
-            {/* <div className="lg:col-span-1">
-              <Select value={selectedAuthor} onValueChange={setSelectedAuthor}>
-                <SelectTrigger className="h-11 bg-background/50">
-                  <SelectValue placeholder="Filter by author" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Authors</SelectItem>
-                  {allAuthors.map((author) => (
-                    <SelectItem key={author} value={author}>
-                      {author}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-            </div> */}
-            {/* Clear Filters Button */}
+
             <div className="lg:col-span-1">
               {hasActiveFilters && (
                 <Button
@@ -146,15 +120,7 @@ export default function BlogList({ userId }: BlogListProps) {
                     <X className="h-3 w-3 cursor-pointer hover:text-destructive" onClick={() => setSearch("")} />
                   </Badge>
                 )}
-                {selectedAuthor !== "all" && (
-                  <Badge variant="secondary" className="gap-1">
-                    Author: {selectedAuthor}
-                    <X
-                      className="h-3 w-3 cursor-pointer hover:text-destructive"
-                      onClick={() => setSelectedAuthor("all")}
-                    />
-                  </Badge>
-                )}
+
               </div>
             </>
           )}

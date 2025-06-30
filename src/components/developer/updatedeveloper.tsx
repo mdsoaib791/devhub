@@ -79,8 +79,7 @@ export default function DeveloperUpdateForm({ onSuccess }: Props) {
     );
   }, [skillsInput, form]);
 
-  // Show validation errors for debugging
-  const errors = form.formState.errors;
+
 
   // Corrected submit logic: use developer.id for update
   const onSubmit = (values: DeveloperModel) => {
