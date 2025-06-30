@@ -6,7 +6,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Separator } from "@/components/ui/separator";
 import { useDeleteBlog, useGetAllBlogs } from "@/hooks/services-hook/use-blog.service.hook";
 import type { BlogModel } from "@/models/blog.model";
@@ -57,9 +56,9 @@ export default function BlogList({ userId }: BlogListProps) {
         b.title.toLowerCase().includes(search.toLowerCase())
       );
     }
-    if (selectedAuthor !== "all") {
-      filtered = filtered.filter((b: BlogModel) => b.userId === selectedAuthor);
-    }
+    // if (selectedAuthor !== "all") {
+    //   filtered = filtered.filter((b: BlogModel) => b.userId === selectedAuthor);
+    // }
     return filtered;
   }, [blogs, userId, search, selectedAuthor]);
 
@@ -106,7 +105,7 @@ export default function BlogList({ userId }: BlogListProps) {
               />
             </div>
             {/* Author Select */}
-            <div className="lg:col-span-1">
+            {/* <div className="lg:col-span-1">
               <Select value={selectedAuthor} onValueChange={setSelectedAuthor}>
                 <SelectTrigger className="h-11 bg-background/50">
                   <SelectValue placeholder="Filter by author" />
@@ -120,7 +119,7 @@ export default function BlogList({ userId }: BlogListProps) {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
+            </div> */}
             {/* Clear Filters Button */}
             <div className="lg:col-span-1">
               {hasActiveFilters && (
