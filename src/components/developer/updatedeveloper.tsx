@@ -28,7 +28,6 @@ export default function DeveloperUpdateForm({ onSuccess }: Props) {
   const { data: developer, isLoading } = useGetDeveloperByUserId(session?.user?.id || '');
   const { mutate: updateDeveloper, isPending: isUpdating } = useUpdateDeveloper();
   const { toast } = useToast();
-  console.log("developer", developer)
   // For skills input as comma separated string
   const [skillsInput, setSkillsInput] = useState('');
 
@@ -116,11 +115,7 @@ export default function DeveloperUpdateForm({ onSuccess }: Props) {
 
   return (
     <Form {...form}>
-      {/* Show validation errors for debugging */}
-      {Object.keys(errors).length > 0 && (
-        <pre className="text-red-500">{JSON.stringify(errors, null, 2)}</pre>
-      )}
-      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4 overflow-y-scroll h-full">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <FormField
             control={form.control}

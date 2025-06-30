@@ -138,7 +138,7 @@ export default function AddEditBlog({
           <Button>{triggerLabel}</Button>
         </DialogTrigger>
       )}
-      <DialogContent className="max-w-xl w-full">
+      <DialogContent className="max-w-xl w-full overflow-y-auto">
         <DialogHeaderUI>
           <DialogTitle>{isEdit ? "Edit Blog" : "Add Blog"}</DialogTitle>
         </DialogHeaderUI>
