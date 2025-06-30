@@ -14,6 +14,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import moment from "moment";
 import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import MarkdownEditor from "../common/markdown-editor";
 import { FormControl, FormField, FormItem, FormLabel, FormMessage } from "../ui/form";
 
 interface AddEditBlogProps {
@@ -159,6 +160,7 @@ export default function AddEditBlog({
                     </FormItem>
                   )}
                 />
+
                 <FormField
                   control={control}
                   name="content"
@@ -166,12 +168,27 @@ export default function AddEditBlog({
                     <FormItem>
                       <FormLabel>Content *</FormLabel>
                       <FormControl>
-                        <Textarea placeholder="Content" {...field} disabled={isSubmitting} />
+                        <div className="grid md:grid-cols-2 gap-4">
+
+                          <Textarea
+                            placeholder="Write your markdown content..."
+                            {...field}
+                            rows={10}
+                            className="h-full"
+                            disabled={isSubmitting}
+                          />
+
+
+                          <div className="border rounded-md p-4 overflow-y-auto max-h-[300px] bg-muted/40">
+                            <MarkdownEditor content={field.value} />
+                          </div>
+                        </div>
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
                 />
+
                 {/* Hidden userId field */}
                 <input type="hidden" {...form.register("userId")} />
                 <div className="flex gap-2">

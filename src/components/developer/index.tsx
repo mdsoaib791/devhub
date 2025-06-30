@@ -80,7 +80,7 @@ function DevelopersWrapper() {
         </div>
 
         {/* Filters Section */}
-        <Card className="mb-8 shadow-lg border-0 bg-card/50 backdrop-blur-sm">
+        <Card className="mb-8 shadow-lg border-2 bg-card/50 backdrop-blur-sm">
           <CardHeader className="pb-4">
             <CardTitle className="flex items-center gap-2 text-lg">
               <Filter className="h-5 w-5" />
